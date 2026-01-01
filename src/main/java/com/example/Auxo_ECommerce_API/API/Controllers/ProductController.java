@@ -1,6 +1,6 @@
-package com.example.Auxo_ECommerce_API.Controllers;
+package com.example.Auxo_ECommerce_API.API.Controllers;
 
-import com.example.Auxo_ECommerce_API.Models.Entities.Product;
+import com.example.Auxo_ECommerce_API.Domain.Entities.Product;
 import com.example.Auxo_ECommerce_API.Services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
