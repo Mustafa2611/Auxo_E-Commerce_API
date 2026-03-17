@@ -15,11 +15,14 @@ import java.util.UUID;
 @Builder
 
 public class OrderItem {
-    @Id
-    @UuidGenerator
-    @Column(columnDefinition = "uniqueidentifier")
-    private UUID id;
-
+//    @Id
+//    @UuidGenerator
+//    @Column(columnDefinition = "uniqueidentifier")
+//    private UUID id;
+@Id
+@GeneratedValue(strategy = GenerationType.UUID)
+@Column(name = "id", columnDefinition = "VARCHAR(36)", updatable = false, nullable = false)
+private UUID id;
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;

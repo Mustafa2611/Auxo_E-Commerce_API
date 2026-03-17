@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/layout :: layout(~{::content})}">
+<head></head>
+<body>
+<div th:fragment="content">
+
+    <div class="mb-4 d-flex align-items-center gap-3">
+        <a th:href="@{/admin/categories/index}" class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-arrow-left"></i>
+        </a>
+        <h2 class="page-title mb-0">Category Details</h2>
+    </div>
+
+    <div class="row g-4">
+
+        <!-- Info Card -->
+        <div class="col-md-4">
+            <div class="card card-modern p-4 h-100">
+                <h5 class="fw-bold mb-4 border-bottom pb-3">
+                    <i class="bi bi-info-circle me-2 text-primary"></i>Information
+                </h5>
+
+                <div class="mb-3">
+                    <p class="text-muted mb-1" style="font-size:12px; text-transform:uppercase; letter-spacing:.05em">Name (English)</p>
+                    <p class="fw-semibold mb-0 fs-5" th:text="${category.nameEn}"></p>
+                </div>
+
+                <div class="mb-3">
+                    <p class="text-muted mb-1" style="font-size:12px; text-transform:uppercase; letter-spacing:.05em">Name (Arabic)</p>
+                    <p class="fw-semibold mb-0 fs-5" th:text="${category.nameAr}"></p>
+                </div>
+
+                <div class="mb-3">
+                    <p class="text-muted mb-1" style="font-size:12px; text-transform:uppercase; letter-spacing:.05em">Type</p>
+                    <span class="badge fs-6"
+                          th:class="${category.type.name() == 'MAIN' ? 'badge bg-primary fs-6' : (category.type.name() == 'SECTION' ? 'badge bg-success fs-6' : 'badge bg-warning fs-6')}"
+                          th:text="${category.type.name() == 'MAIN' ? 'Main Section' : (category.type.name() == 'SECTION' ? 'Section' : 'Sub Section')}">
+                    </span>
+                </div>
+
+                <div class="mb-4" th:if="${category.parentNameEn != null}">
+                    <p class="text-muted mb-1" style="font-size:12px; text-transform:uppercase; letter-spacing:.05em">Parent Category</p>
+                    <a th:href="@{'/admin/categories/details/' + ${category.parentId}}"
+                       class="text-decoration-none fw-semibold">
+                        <i class="bi bi-link-45deg"></i>
+                        <span th:text="${category.parentNameEn}"></span>
+                    </a>
+                </div>
+
+                <div class="mt-auto d-flex gap-2">
+                    <a th:href="@{'/admin/categories/edit/' + ${category.id}}" class="btn btn-primary btn-sm">
+                        <i class="bi bi-pencil me-1"></i> Edit
+                    </a>
+                    <a th:href="@{'/admin/categories/delete/' + ${category.id}}" class="btn btn-outline-danger btn-sm">
+                        <i class="bi bi-trash me-1"></i> Delete
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Children Table Card — hidden for SUB_SECTION since it has no children -->
+        <div class="col-md-8" th:if="${category.type.name() != 'SUB_SECTION'}">
+            <div class="card card-modern p-4 h-100">
+
+                <!-- Dynamic header based on type -->
+                <h5 class="fw-bold mb-4 border-bottom pb-3">
+                    <i class="bi bi-diagram-3 me-2 text-primary"></i>
+                    <span th:text="${category.type.name() == 'MAIN' ? 'Sections' : 'Sub Sections'}"></span>
+                    <span class="badge bg-primary ms-2" th:text="${#lists.size(subCategories)}"></span>
+                </h5>
+
+                <!-- Empty state -->
+                <div th:if="${#lists.isEmpty(subCategories)}"
+                     class="d-flex flex-column align-items-center justify-content-center py-5 text-muted">
+                    <i class="bi bi-folder2-open" style="font-size: 48px; opacity:0.3"></i>
+                    <p class="mt-3 mb-1" th:text="${category.type.name() == 'MAIN' ? 'No sections yet' : 'No sub sections yet'}"></p>
+                    <a th:href="@{/admin/categories/create}" class="btn btn-outline-primary btn-sm mt-3">
+                        + Add Category
+                    </a>
+                </div>
+
+                <!-- Children table -->
+                <div th:if="${!#lists.isEmpty(subCategories)}">
+                    <div class="table-responsive">
+                        <table class="table align-middle mb-0">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name (English)</th>
+                                <th>Name (Arabic)</th>
+                                <th>Type</th>
+                                <th>Parent</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="sub, iterStat : ${subCategories}">
+                                <td th:text="${iterStat.count}"></td>
+                                <td th:text="${sub.nameEn}"></td>
+                                <td th:text="${sub.nameAr}"></td>
+                                <td>
+                                    <span th:class="${sub.type.name() == 'MAIN' ? 'badge bg-primary' : (sub.type.name() == 'SECTION' ? 'badge bg-success' : 'badge bg-warning')}"
+                                          th:text="${sub.type.name() == 'MAIN' ? 'Main' : (sub.type.name() == 'SECTION' ? 'Section' : 'Sub Section')}">
+                                    </span>
+                                </td>
+                                <td th:text="${sub.parentNameEn} ?: '—'"></td>
+                                <td class="text-end">
+                                    <a th:href="@{'/admin/categories/details/' + ${sub.id}}"
+                                       class="btn btn-sm btn-outline-secondary me-1">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                    <a th:href="@{'/admin/categories/edit/' + ${sub.id}}"
+                                       class="btn btn-sm btn-outline-primary me-1">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <a th:href="@{'/admin/categories/delete/' + ${sub.id}}"
+                                       class="btn btn-sm btn-outline-danger">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- SUB_SECTION has no children — show a note instead -->
+        <div class="col-md-8" th:if="${category.type.name() == 'SUB_SECTION'}">
+            <div class="card card-modern p-4 h-100 d-flex flex-column align-items-center justify-content-center text-muted">
+                <i class="bi bi-diagram-2" style="font-size: 48px; opacity:0.3"></i>
+                <p class="mt-3 mb-0">This is a Sub Section — it has no children.</p>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+</body>
+</html>

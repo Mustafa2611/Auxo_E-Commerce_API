@@ -15,15 +15,25 @@ import java.util.UUID;
 @Table(name = "Products")
 
 public class Product {
-    @Id
-    @UuidGenerator
-    @Column(columnDefinition = "uniqueidentifier")
-    private UUID id;
-    private String name;
-    private String description;
+//    @Id
+//    @UuidGenerator
+//    @Column(columnDefinition = "uniqueidentifier")
+//    private UUID id;
+@Id
+@GeneratedValue(strategy = GenerationType.UUID)
+@Column(name = "id", columnDefinition = "VARCHAR(36)", updatable = false, nullable = false)
+private UUID id;
+    private String nameAr;
+    private String nameEn;
+    private String descriptionAr;
+    private String descriptionEn;
+    private String InstallmentDetails;
     private double price;
     private int stock;
-    @ManyToOne
+    private String imageUrl; // ← add this
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
+    @Column(name = "ViewedCount", columnDefinition = "int default 0")
+    private int ViewedCount;
 }

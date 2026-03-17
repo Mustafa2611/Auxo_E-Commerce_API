@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/layout :: layout(~{::content})}">
+<head></head>
+<body>
+<div th:fragment="content">
+
+    <div class="mb-4 d-flex align-items-center gap-3">
+        <a th:href="@{/admin/products/index}" class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-arrow-left"></i>
+        </a>
+        <h2 class="page-title mb-0">Product Details</h2>
+    </div>
+
+    <div class="row g-4">
+
+        <!-- Main Info -->
+        <div class="col-md-7">
+            <div class="card card-modern p-4 h-100">
+                <h5 class="fw-bold mb-4 border-bottom pb-3">
+                    <i class="bi bi-box-seam me-2 text-primary"></i>Product Information
+                </h5>
+                <div th:if="${product.imageUrl != null and !#strings.isEmpty(product.imageUrl)}" class="mb-4 text-center">
+                    <img th:src="${product.imageUrl}" alt="Product Image"
+                         style="max-height:250px; max-width:100%; border-radius:12px; object-fit:cover; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                </div>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <p class="text-muted mb-1" style="font-size:12px; text-transform:uppercase; letter-spacing:.05em">Name (English)</p>
+                        <p class="fw-semibold mb-0 fs-5" th:text="${product.nameEn}"></p>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="text-muted mb-1" style="font-size:12px; text-transform:uppercase; letter-spacing:.05em">Name (Arabic)</p>
+                        <p class="fw-semibold mb-0 fs-5" th:text="${product.nameAr}"></p>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="text-muted mb-1" style="font-size:12px; text-transform:uppercase; letter-spacing:.05em">Description (English)</p>
+                        <p class="mb-0" th:text="${product.descriptionEn} ?: '—'"></p>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="text-muted mb-1" style="font-size:12px; text-transform:uppercase; letter-spacing:.05em">Description (Arabic)</p>
+                        <p class="mb-0" th:text="${product.descriptionAr} ?: '—'"></p>
+                    </div>
+                    <div class="col-12">
+                        <p class="text-muted mb-1" style="font-size:12px; text-transform:uppercase; letter-spacing:.05em">Installment Details</p>
+                        <p class="mb-0" th:text="${product.installmentDetails} ?: '—'"></p>
+                    </div>
+                </div>
+
+                <div class="mt-4 d-flex gap-2">
+                    <a th:href="@{'/admin/products/edit/' + ${product.id}}" class="btn btn-primary btn-sm">
+                        <i class="bi bi-pencil me-1"></i> Edit
+                    </a>
+                    <a th:href="@{'/admin/products/delete/' + ${product.id}}" class="btn btn-outline-danger btn-sm">
+                        <i class="bi bi-trash me-1"></i> Delete
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pricing & Stock -->
+        <div class="col-md-5">
+            <div class="card card-modern p-4 mb-4">
+                <h5 class="fw-bold mb-4 border-bottom pb-3">
+                    <i class="bi bi-currency-dollar me-2 text-primary"></i>Pricing & Stock
+                </h5>
+
+                <div class="mb-3">
+                    <p class="text-muted mb-1" style="font-size:12px; text-transform:uppercase; letter-spacing:.05em">Price</p>
+                    <span class="badge bg-success fs-5" th:text="'$' + ${product.price}"></span>
+                </div>
+
+                <div class="mb-3">
+                    <p class="text-muted mb-1" style="font-size:12px; text-transform:uppercase; letter-spacing:.05em">Stock</p>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="fw-bold fs-5" th:text="${product.stock}"></span>
+                        <span th:if="${product.stock == 0}" class="badge bg-danger">Out of Stock</span>
+                        <span th:if="${product.stock > 0 and product.stock < 10}" class="badge bg-warning">Low Stock</span>
+                        <span th:if="${product.stock >= 10}" class="badge bg-success">In Stock</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category -->
+            <div class="card card-modern p-4">
+                <h5 class="fw-bold mb-4 border-bottom pb-3">
+                    <i class="bi bi-tag me-2 text-primary"></i>Category
+                </h5>
+                <p class="text-muted mb-1" style="font-size:12px; text-transform:uppercase; letter-spacing:.05em">Category (English)</p>
+                <p class="fw-semibold mb-2" th:text="${product.categoryTitleEn} ?: '—'"></p>
+                <p class="text-muted mb-1" style="font-size:12px; text-transform:uppercase; letter-spacing:.05em">Category (Arabic)</p>
+                <p class="fw-semibold mb-0" th:text="${product.categoryTitleAr} ?: '—'"></p>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+</body>
+</html>

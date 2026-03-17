@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{store/layout :: layout(~{::content})}">
+<head></head>
+<body>
+<div th:fragment="content">
+
+<style>
+.details-page { padding: 40px 0 80px; }
+.details-inner { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+
+/* BREADCRUMB */
+.breadcrumb {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; color: var(--muted); margin-bottom: 32px;
+}
+.breadcrumb a { color: var(--muted); text-decoration: none; transition: color .15s; }
+.breadcrumb a:hover { color: var(--ink); }
+.breadcrumb i { font-size: 10px; }
+
+/* MAIN LAYOUT */
+.details-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start;
+}
+
+/* IMAGE PANEL */
+.image-panel {
+    position: sticky; top: calc(var(--nav-h) + 24px);
+}
+.main-image-wrap {
+    background: #f4f4f0; border-radius: 20px; overflow: hidden;
+    aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+    padding: 32px;
+}
+.main-image-wrap img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.no-image-placeholder {
+    text-align: center; color: #cbd5e1;
+}
+.no-image-placeholder i { font-size: 80px; opacity: .3; display: block; margin-bottom: 12px; }
+.no-image-placeholder span { font-size: 14px; }
+
+/* INFO PANEL */
+.info-panel {}
+.product-category-badge {
+    display: inline-block; background: #eff4ff; color: #1a56ff;
+    border-radius: 100px; padding: 5px 14px; font-size: 12px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: .06em; margin-bottom: 16px;
+}
+.product-title {
+    font-family: 'Syne', sans-serif; font-size: clamp(26px, 3vw, 38px);
+    font-weight: 800; line-height: 1.1; margin-bottom: 20px;
+}
+
+/* PRICING BOX */
+.pricing-box {
+    background: #f8faff; border: 1.5px solid #dde8ff; border-radius: 16px;
+    padding: 24px; margin-bottom: 24px;
+}
+.price-main {
+    font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 800;
+    color: var(--ink); margin-bottom: 4px;
+}
+.installment-line {
+    color: #1a56ff; font-size: 14px; font-weight: 500; margin-top: 8px;
+}
+.installment-line i { margin-right: 4px; }
+
+/* STOCK */
+.stock-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    border-radius: 100px; padding: 6px 14px; font-size: 13px; font-weight: 600;
+    margin-bottom: 24px;
+}
+.stock-badge.in-stock { background: #dcfce7; color: #15803d; }
+.stock-badge.low-stock { background: #fef9c3; color: #854d0e; }
+.stock-badge.out-stock { background: #fee2e2; color: #991b1b; }
+
+/* ACTIONS */
+.actions-wrap { display: flex; gap: 12px; margin-bottom: 28px; }
+.btn-add-cart {
+    flex: 1; padding: 15px; background: #1a56ff; color: #fff; border: none;
+    border-radius: 12px; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px;
+    cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+    text-decoration: none; transition: background .15s, transform .1s;
+}
+.btn-add-cart:hover { background: #0038e0; color: #fff; transform: translateY(-2px); }
+.btn-wishlist {
+    width: 52px; height: 52px; border-radius: 12px;
+    border: 1.5px solid var(--border); background: #fff;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 18px; color: var(--muted);
+    transition: border-color .15s, color .15s;
+}
+.btn-wishlist:hover { border-color: #ef4444; color: #ef4444; }
+
+/* PERKS */
+.perks-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+.perk-row {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 14px; color: var(--muted);
+}
+.perk-row i { color: #16a34a; font-size: 15px; }
+
+/* DESCRIPTION */
+.description-section { margin-top: 32px; padding-top: 28px; border-top: 1px solid var(--border); }
+.desc-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 18px; margin-bottom: 12px; }
+.desc-text { color: var(--muted); font-size: 15px; line-height: 1.8; }
+.desc-text p { margin-bottom: 8px; }
+</style>
+
+<div class="details-page">
+    <div class="details-inner">
+
+        <!-- BREADCRUMB -->
+        <nav class="breadcrumb">
+            <a href="/">Home</a>
+            <i class="bi bi-chevron-right"></i>
+            <a href="/products">Products</a>
+            <i class="bi bi-chevron-right"></i>
+            <span th:text="${product.nameEn}">Product</span>
+        </nav>
+
+        <div class="details-grid">
+
+            <!-- IMAGE -->
+            <div class="image-panel">
+                <div class="main-image-wrap">
+                    <img th:if="${product.imageUrl != null and !#strings.isEmpty(product.imageUrl)}"
+                         th:src="${product.imageUrl}" th:alt="${product.nameEn}">
+                    <div th:unless="${product.imageUrl != null and !#strings.isEmpty(product.imageUrl)}"
+                         class="no-image-placeholder">
+                        <i class="bi bi-image"></i>
+                        <span>No image available</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- INFO -->
+            <div class="info-panel">
+
+                <div class="product-category-badge" th:text="${product.categoryTitleEn}">Category</div>
+
+                <h1 class="product-title" th:text="${product.nameEn}">Product Name</h1>
+
+                <!-- PRICING BOX -->
+                <div class="pricing-box">
+                    <div class="price-main" th:text="'$' + ${product.price}">$0.00</div>
+                    <div class="installment-line"
+                         th:if="${product.InstallmentDetails != null and !#strings.isEmpty(product.InstallmentDetails)}">
+                        <i class="bi bi-credit-card"></i>
+                        <span th:text="${product.InstallmentDetails}"></span>
+                    </div>
+                </div>
+
+                <!-- STOCK -->
+                <div th:if="${product.stock == 0}"
+                     class="stock-badge out-stock">
+                    <i class="bi bi-x-circle-fill"></i> Out of Stock
+                </div>
+                <div th:if="${product.stock > 0 and product.stock < 10}"
+                     class="stock-badge low-stock">
+                    <i class="bi bi-exclamation-circle-fill"></i>
+                    Only <span th:text="${product.stock}"></span> left
+                </div>
+                <div th:if="${product.stock >= 10}"
+                     class="stock-badge in-stock">
+                    <i class="bi bi-check-circle-fill"></i>
+                    In Stock (<span th:text="${product.stock}"></span> available)
+                </div>
+
+                <!-- ACTIONS -->
+                <div class="actions-wrap">
+                    <a href="#" class="btn-add-cart">
+                        <i class="bi bi-bag-plus"></i> Add to Cart
+                    </a>
+                    <button class="btn-wishlist">
+                        <i class="bi bi-heart"></i>
+                    </button>
+                </div>
+
+                <!-- PERKS -->
+                <div class="perks-list">
+                    <div class="perk-row"><i class="bi bi-check-circle-fill"></i> Free delivery on orders over $500</div>
+                    <div class="perk-row"><i class="bi bi-check-circle-fill"></i> 30-day return policy</div>
+                    <div class="perk-row"><i class="bi bi-check-circle-fill"></i> Official warranty included</div>
+                </div>
+
+                <!-- DESCRIPTION -->
+                <div class="description-section"
+                     th:if="${(product.descriptionEn != null and !#strings.isEmpty(product.descriptionEn))
+                          or (product.descriptionAr != null and !#strings.isEmpty(product.descriptionAr))}">
+                    <div class="desc-title">About This Product</div>
+                    <div class="desc-text">
+                        <p th:if="${product.descriptionEn != null and !#strings.isEmpty(product.descriptionEn)}"
+                           th:text="${product.descriptionEn}"></p>
+                        <p th:if="${product.descriptionAr != null and !#strings.isEmpty(product.descriptionAr)}"
+                           th:text="${product.descriptionAr}" style="direction:rtl; text-align:right;"></p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</div>
+</body>
+</html>

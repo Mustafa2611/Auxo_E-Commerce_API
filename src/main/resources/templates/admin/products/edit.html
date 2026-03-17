@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/layout :: layout(~{::content})}">
+<head></head>
+<body>
+<div th:fragment="content">
+
+    <div class="card card-modern p-5 col-md-8 mx-auto">
+        <div class="d-flex align-items-center gap-3 mb-4">
+            <a th:href="@{/admin/products/index}" class="btn btn-outline-secondary btn-sm">
+                <i class="bi bi-arrow-left"></i>
+            </a>
+            <h3 class="fw-bold mb-0">Edit Product</h3>
+        </div>
+
+        <form th:action="@{/admin/products/edit}" th:object="${product}"
+              method="post" enctype="multipart/form-data">
+            <input type="hidden" th:field="*{id}">
+            <input type="hidden" name="existingImageUrl" th:value="${product.existingImageUrl}">
+            <div class="row g-4">
+
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Name (English)</label>
+                    <input type="text" class="form-control" th:field="*{nameEn}" placeholder="Enter English name">
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Name (Arabic)</label>
+                    <input type="text" class="form-control" th:field="*{nameAr}" placeholder="Enter Arabic name">
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Description (English)</label>
+                    <textarea class="form-control" th:field="*{descriptionEn}" rows="3"></textarea>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Description (Arabic)</label>
+                    <textarea class="form-control" th:field="*{descriptionAr}" rows="3"></textarea>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label fw-semibold">Price ($)</label>
+                    <input type="number" step="0.01" min="0" class="form-control" th:field="*{price}">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label fw-semibold">Stock</label>
+                    <input type="number" min="0" class="form-control" th:field="*{stock}">
+                </div>
+                <div class="col-12">
+                    <label class="form-label fw-semibold">Product Image <span class="text-muted fw-normal">(optional)</span></label>
+
+                    <!-- Show current image if exists -->
+                    <div th:if="${product.existingImageUrl != null and !#strings.isEmpty(product.existingImageUrl)}"
+                         class="mb-3">
+                        <p class="text-muted mb-2" style="font-size:13px">Current Image:</p>
+                        <img th:src="${product.existingImageUrl}" alt="Current product image"
+                             style="max-height:160px; max-width:100%; border-radius:10px; object-fit:cover;">
+                    </div>
+
+                    <input type="file" class="form-control" name="imageFile" accept="image/*" onchange="previewImage(this)">
+                    <div class="form-text">Leave empty to keep the current image.</div>
+
+                    <div id="imagePreview" class="mt-3" style="display:none">
+                        <p class="text-muted mb-2" style="font-size:13px">New Image Preview:</p>
+                        <img id="previewImg" src="#" alt="Preview"
+                             style="max-height:160px; max-width:100%; border-radius:10px; object-fit:cover;">
+                    </div>
+                </div>
+                <!-- Category Selection -->
+                <div class="col-12">
+                    <label class="form-label fw-semibold">Category <span class="text-danger">*</span></label>
+
+                    <div class="row g-3">
+
+                        <div class="col-md-4">
+                            <label class="form-label text-muted" style="font-size:13px">
+                                <i class="bi bi-layers me-1"></i>Main Section
+                            </label>
+                            <select class="form-select" id="mainSelect">
+                                <option value="">— Select Main —</option>
+                                <option th:each="cat : ${mainCategories}"
+                                        th:value="${cat.id}"
+                                        th:text="${cat.nameEn}">
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4" id="sectionWrap" style="display:none">
+                            <label class="form-label text-muted" style="font-size:13px">
+                                <i class="bi bi-folder me-1"></i>Section
+                            </label>
+                            <select class="form-select" id="sectionSelect">
+                                <option value="">— Select Section —</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4" id="subWrap" style="display:none">
+                            <label class="form-label text-muted" style="font-size:13px">
+                                <i class="bi bi-folder2 me-1"></i>Sub Section
+                            </label>
+                            <select class="form-select" id="subSelect">
+                                <option value="">— Select Sub Section —</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <input type="hidden" th:field="*{categoryId}" id="categoryIdInput">
+
+                    <div id="categoryHint" class="form-text mt-2 d-flex align-items-center gap-2">
+                        <i class="bi bi-info-circle"></i>
+                        <span id="categoryHintText">Select a main section to begin.</span>
+                    </div>
+                    <div id="categorySelected" class="mt-2" style="display:none">
+                        <span class="badge bg-success px-3 py-2">
+                            <i class="bi bi-check-circle me-1"></i>
+                            <span id="categorySelectedLabel"></span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <label class="form-label fw-semibold">
+                        Installment Details <span class="text-muted fw-normal">(optional)</span>
+                    </label>
+                    <textarea class="form-control" th:field="*{installmentDetails}" rows="2"></textarea>
+                </div>
+
+            </div>
+
+            <div class="d-flex gap-2 mt-4">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-check-lg me-1"></i> Update Product
+                </button>
+                <a th:href="@{/admin/products/index}" class="btn btn-outline-secondary">Cancel</a>
+            </div>
+
+        </form>
+    </div>
+
+    <script th:inline="javascript">
+        const preselectedCategoryId   = /*[[${product.categoryId}]]*/ null;
+        const preselectedCategoryType = /*[[${product.categoryType}]]*/ null;
+
+        // ── Helpers ────────────────────────────────────────────────────────
+
+        function loadChildren(parentId, wrapId, selectId, placeholder, callback) {
+            fetch(`/admin/categories/children/${parentId}`)
+                .then(r => r.json())
+                .then(children => {
+                    const sel = document.getElementById(selectId);
+                    sel.innerHTML = `<option value="">${placeholder}</option>`;
+                    if (children.length > 0) {
+                        children.forEach(c => {
+                            const opt = document.createElement('option');
+                            opt.value = c.id;
+                            opt.text  = c.nameEn;
+                            sel.appendChild(opt);
+                        });
+                        document.getElementById(wrapId).style.display = '';
+                    } else {
+                        document.getElementById(wrapId).style.display = 'none';
+                    }
+                    if (callback) callback(children);
+                });
+        }
+
+        function resetDropdown(wrapId, selectId, placeholder) {
+            document.getElementById(wrapId).style.display = 'none';
+            document.getElementById(selectId).innerHTML = `<option value="">${placeholder}</option>`;
+        }
+
+        function assignCategory(id, label) {
+            document.getElementById('categoryIdInput').value = id || '';
+            document.getElementById('categoryHint').style.display     = id ? 'none' : '';
+            document.getElementById('categorySelected').style.display = id ? '' : 'none';
+            if (id) document.getElementById('categorySelectedLabel').textContent = label;
+        }
+        function previewImage(input) {
+        const preview = document.getElementById('imagePreview');
+        const img     = document.getElementById('previewImg');
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = e => {
+                img.src = e.target.result;
+                preview.style.display = '';
+            };
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            preview.style.display = 'none';
+        }
+    }
+        // ── Manual dropdown listeners (same as create page) ────────────────
+
+        document.getElementById('mainSelect').addEventListener('change', function () {
+            const id = this.value, name = this.options[this.selectedIndex].text;
+            resetDropdown('sectionWrap', 'sectionSelect', '— Select Section —');
+            resetDropdown('subWrap', 'subSelect', '— Select Sub Section —');
+            if (!id) { assignCategory(null, null); return; }
+            assignCategory(id, name);
+            loadChildren(id, 'sectionWrap', 'sectionSelect', '— Select Section —', null);
+        });
+
+        document.getElementById('sectionSelect').addEventListener('change', function () {
+            const id = this.value, name = this.options[this.selectedIndex].text;
+            resetDropdown('subWrap', 'subSelect', '— Select Sub Section —');
+            if (!id) {
+                const mSel = document.getElementById('mainSelect');
+                assignCategory(mSel.value, mSel.options[mSel.selectedIndex].text);
+                return;
+            }
+            assignCategory(id, name);
+            loadChildren(id, 'subWrap', 'subSelect', '— Select Sub Section —', null);
+        });
+
+        document.getElementById('subSelect').addEventListener('change', function () {
+            const id = this.value, name = this.options[this.selectedIndex].text;
+            if (!id) {
+                const sSel = document.getElementById('sectionSelect');
+                assignCategory(sSel.value, sSel.options[sSel.selectedIndex].text);
+                return;
+            }
+            assignCategory(id, name);
+        });
+
+        // ── Pre-select on page load ────────────────────────────────────────
+
+        window.addEventListener('DOMContentLoaded', () => {
+            if (!preselectedCategoryId || !preselectedCategoryType) return;
+
+            if (preselectedCategoryType === 'MAIN') {
+                // Just select main and load its sections for future editing
+                const mainSel = document.getElementById('mainSelect');
+                mainSel.value = preselectedCategoryId;
+                const name = mainSel.options[mainSel.selectedIndex]?.text || '';
+                assignCategory(preselectedCategoryId, name);
+                loadChildren(preselectedCategoryId, 'sectionWrap', 'sectionSelect', '— Select Section —', null);
+
+            } else if (preselectedCategoryType === 'SECTION') {
+                // 1. Fetch parent MAIN of this section
+                fetch(`/admin/categories/parent/${preselectedCategoryId}`)
+                    .then(r => r.json())
+                    .then(main => {
+                        // 2. Select main in dropdown
+                        document.getElementById('mainSelect').value = main.id;
+                        // 3. Load sections under that main, then select this section
+                        loadChildren(main.id, 'sectionWrap', 'sectionSelect', '— Select Section —', () => {
+                            const sSel = document.getElementById('sectionSelect');
+                            sSel.value = preselectedCategoryId;
+                            const name = sSel.options[sSel.selectedIndex]?.text || '';
+                            assignCategory(preselectedCategoryId, name);
+                            // 4. Also load subsections in case user wants to drill down
+                            loadChildren(preselectedCategoryId, 'subWrap', 'subSelect', '— Select Sub Section —', null);
+                        });
+                    });
+
+            } else if (preselectedCategoryType === 'SUB_SECTION') {
+                // 1. Fetch parent SECTION of this subsection
+                fetch(`/admin/categories/parent/${preselectedCategoryId}`)
+                    .then(r => r.json())
+                    .then(section => {
+                        // 2. Fetch parent MAIN of that section
+                        fetch(`/admin/categories/parent/${section.id}`)
+                            .then(r => r.json())
+                            .then(main => {
+                                // 3. Select main
+                                document.getElementById('mainSelect').value = main.id;
+                                // 4. Load sections, select the section
+                                loadChildren(main.id, 'sectionWrap', 'sectionSelect', '— Select Section —', () => {
+                                    const sSel = document.getElementById('sectionSelect');
+                                    sSel.value = section.id;
+                                    // 5. Load subsections, select this subsection
+                                    loadChildren(section.id, 'subWrap', 'subSelect', '— Select Sub Section —', () => {
+                                        const subSel = document.getElementById('subSelect');
+                                        subSel.value = preselectedCategoryId;
+                                        const name = subSel.options[subSel.selectedIndex]?.text || '';
+                                        assignCategory(preselectedCategoryId, name);
+                                    });
+                                });
+                            });
+                    });
+            }
+        });
+    </script>
+    <script>
+        function previewImage(input) {
+            const preview = document.getElementById('imagePreview');
+            const img     = document.getElementById('previewImg');
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = e => {
+                    img.src = e.target.result;
+                    preview.style.display = '';
+                };
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                preview.style.display = 'none';
+            }
+        }
+    </script>
+</div>
+</body>
+</html>

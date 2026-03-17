@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/layout :: layout(~{::content})}">
+<head></head>
+<body>
+<div th:fragment="content">
+
+    <div class="card card-modern p-5 col-md-7 mx-auto">
+        <div class="d-flex align-items-center gap-3 mb-4">
+            <a th:href="@{/admin/categories/index}" class="btn btn-outline-secondary btn-sm">
+                <i class="bi bi-arrow-left"></i>
+            </a>
+            <h3 class="fw-bold mb-0">Create New Category</h3>
+        </div>
+
+        <form th:action="@{/admin/categories/create}" th:object="${category}" method="post">
+
+            <div class="mb-4">
+                <label class="form-label fw-semibold">Name (English)</label>
+                <input type="text" class="form-control" th:field="*{nameEn}" placeholder="Enter English name">
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label fw-semibold">Name (Arabic)</label>
+                <input type="text" class="form-control" th:field="*{nameAr}" placeholder="Enter Arabic name">
+            </div>
+
+            <!-- Type Radio Buttons -->
+            <div class="mb-4">
+                <label class="form-label fw-semibold d-block mb-3">Category Level</label>
+
+                <div class="d-flex gap-3">
+
+                    <div class="card p-3 flex-fill text-center level-card" onclick="selectType('MAIN', this)" id="card-MAIN">
+                        <i class="bi bi-layers fs-3 text-primary mb-2"></i>
+                        <div class="fw-semibold">Main Section</div>
+                        <div class="text-muted" style="font-size:12px">Level 1 — Top level</div>
+                        <input type="radio" name="type" value="MAIN" class="d-none" id="radio-MAIN">
+                    </div>
+
+                    <div class="card p-3 flex-fill text-center level-card" onclick="selectType('SECTION', this)" id="card-SECTION">
+                        <i class="bi bi-folder fs-3 text-success mb-2"></i>
+                        <div class="fw-semibold">Section</div>
+                        <div class="text-muted" style="font-size:12px">Level 2 — Under Main</div>
+                        <input type="radio" name="type" value="SECTION" class="d-none" id="radio-SECTION">
+                    </div>
+
+                    <div class="card p-3 flex-fill text-center level-card" onclick="selectType('SUB_SECTION', this)" id="card-SUB_SECTION">
+                        <i class="bi bi-folder2 fs-3 text-warning mb-2"></i>
+                        <div class="fw-semibold">Sub Section</div>
+                        <div class="text-muted" style="font-size:12px">Level 3 — Under Section</div>
+                        <input type="radio" name="type" value="SUB_SECTION" class="d-none" id="radio-SUB_SECTION">
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Parent dropdown for SECTION — shows MAIN categories -->
+            <div class="mb-4" id="parentMain" style="display:none">
+                <label class="form-label fw-semibold">
+                    Parent Main Section <span class="text-danger">*</span>
+                </label>
+                <select class="form-select" th:field="*{parentId}" id="parentMainSelect">
+                    <option value="">— Select Main Section —</option>
+                    <option th:each="cat : ${mainCategories}"
+                            th:value="${cat.id}"
+                            th:text="${cat.nameEn}">
+                    </option>
+                </select>
+            </div>
+
+            <!-- Parent dropdown for SUB_SECTION — shows SECTION categories -->
+            <div class="mb-4" id="parentSection" style="display:none">
+                <label class="form-label fw-semibold">
+                    Parent Section <span class="text-danger">*</span>
+                </label>
+                <select class="form-select" th:field="*{parentId}" id="parentSectionSelect">
+                    <option value="">— Select Section —</option>
+                    <option th:each="cat : ${sectionCategories}"
+                            th:value="${cat.id}"
+                            th:text="${cat.nameEn}">
+                    </option>
+                </select>
+            </div>
+
+            <div class="d-flex gap-2 mt-2">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-check-lg me-1"></i> Save Category
+                </button>
+                <a th:href="@{/admin/categories/index}" class="btn btn-outline-secondary">Cancel</a>
+            </div>
+
+        </form>
+    </div>
+
+    <style>
+        .level-card {
+            cursor: pointer;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            transition: all 0.15s ease;
+        }
+        .level-card:hover { border-color: #2563eb; }
+        .level-card.selected { border-color: #2563eb; background: #eff6ff; }
+    </style>
+
+    <script>
+        function selectType(type, card) {
+            // Update radio
+            document.getElementById('radio-' + type).checked = true;
+
+            // Update card styles
+            document.querySelectorAll('.level-card').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+
+            // Show/hide correct parent dropdown
+            document.getElementById('parentMain').style.display    = type === 'SECTION'     ? 'block' : 'none';
+            document.getElementById('parentSection').style.display = type === 'SUB_SECTION' ? 'block' : 'none';
+
+            // Clear both selects when switching type
+            document.getElementById('parentMainSelect').value    = '';
+            document.getElementById('parentSectionSelect').value = '';
+        }
+    </script>
+
+</div>
+</body>
+</html>

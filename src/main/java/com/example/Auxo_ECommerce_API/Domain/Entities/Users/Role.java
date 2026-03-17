@@ -1,0 +1,40 @@
+package com.example.Auxo_ECommerce_API.Domain.Entities.Users;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Entity
+@Table(name ="Roles")
+public class Role {
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.UUID)
+//    private UUID id ;
+@Id
+@GeneratedValue(strategy = GenerationType.UUID)
+@Column(name = "id", columnDefinition = "VARCHAR(36)", updatable = false, nullable = false)
+private UUID id;
+    private String name;
+
+    @ManyToMany(
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE}
+    )
+    @JoinTable(
+            name = "User_Roles",
+            joinColumns = @JoinColumn(name = "Role_Id"),
+            inverseJoinColumns = @JoinColumn(name = "User_Id")
+    )
+    private List<User> Users;
+}

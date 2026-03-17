@@ -9,6 +9,7 @@ public interface IUnitOfWork {
     IOrderRepository Orders();
     IOrderItemRepository OrderItems();
     ICategoryRepository Categories();
+    IRoleRepository Roles();
 
     Result commit();
     void rollback();

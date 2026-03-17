@@ -19,19 +19,21 @@ public class UnitOfWork implements IUnitOfWork {
     private final IOrderRepository Orders;
     private final IOrderItemRepository OrderItems;
     private final IUserRepository Users;
+    private final IRoleRepository Roles;
     public UnitOfWork(
             IProductRepository productRepository,
             IOrderRepository orders,
             IOrderItemRepository orderItem,
             IUserRepository users,
-            ICategoryRepository categoryRepository
+            ICategoryRepository categoryRepository,
+            IRoleRepository roles
             ) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
         Users  = users;
         OrderItems = orderItem;
         Orders= orders;
-
+        Roles = roles;
     }
 
     @Override
@@ -41,7 +43,7 @@ public class UnitOfWork implements IUnitOfWork {
 
     @Override
     public IUserRepository Users() {
-        return null;
+        return Users;
     }
 
     @Override
@@ -49,13 +51,17 @@ public class UnitOfWork implements IUnitOfWork {
 
     @Override
     public IOrderItemRepository OrderItems() {
-        return null;
+        return OrderItems;
     }
 
     @Override
     public ICategoryRepository Categories() {
         return categoryRepository;
     }
+
+    @Override
+    public IRoleRepository Roles() { return Roles;}
+
 
     @Override
     @Transactional
