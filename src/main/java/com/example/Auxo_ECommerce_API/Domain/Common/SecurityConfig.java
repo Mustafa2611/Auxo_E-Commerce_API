@@ -16,6 +16,26 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/", "/home", "/products", "/products/**",
+                                "/uploads/**", "/css/**", "/js/**",
+                                "/webjars/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/admin/**").authenticated()
+                        .anyRequest().permitAll()
+                )
+                .formLogin(form -> form
+                        .loginPage("/admin/login")
+                        .defaultSuccessUrl("/admin/dashboard")
+                        .permitAll()
+                )
+                .logout(logout -> logout.permitAll());
+
+        return http.build();
+    }
 //    @Bean
 //    public InMemoryUserDetailsManager userDetailsService() {
 //        UserDetails user = User.withUsername("admin")
