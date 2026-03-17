@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.util.HashSet;
 import java.util.List;
@@ -22,8 +23,11 @@ public class Role {
 //    @GeneratedValue(strategy = GenerationType.UUID)
 //    private UUID id ;
 @Id
-@GeneratedValue(strategy = GenerationType.UUID)
-@Column(name = "id", columnDefinition = "VARCHAR(36)", updatable = false, nullable = false)
+//@GeneratedValue(strategy = GenerationType.UUID)
+//@Column(name = "id", columnDefinition = "VARCHAR(36)", updatable = false, nullable = false)
+@GeneratedValue(generator = "UUID")
+@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+@Column(updatable = false, nullable = false, columnDefinition = "VARCHAR(36)")
 private UUID id;
     private String name;
 
