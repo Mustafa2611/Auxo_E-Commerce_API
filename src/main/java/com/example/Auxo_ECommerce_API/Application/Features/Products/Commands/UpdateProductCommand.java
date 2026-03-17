@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @Data
 public class UpdateProductCommand implements ICommand<UUID> {
-    private UUID Id;
+    private String Id;
     private String nameAr;
     private String nameEn;
     private String descriptionAr;

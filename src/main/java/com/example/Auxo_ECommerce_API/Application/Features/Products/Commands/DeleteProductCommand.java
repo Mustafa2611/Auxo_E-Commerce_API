@@ -7,5 +7,5 @@ import java.util.UUID;
 
 @Data
 public class DeleteProductCommand implements ICommand<UUID> {
-    private UUID Id;
+    private String Id;
 }

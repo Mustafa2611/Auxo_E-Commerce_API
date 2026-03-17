@@ -17,7 +17,7 @@ public class GetProductDetailsQueryHandler implements IQueryHandler<GetProductDe
     private final IUnitOfWork unitOfWork;
     @Override
     public Result<GetProductDetailsDto> handle(GetProductDetailsQuery request) {
-        Optional<Product> productOpt = unitOfWork.Products().findByIdWithCategory(request.getId());
+        Optional<Product> productOpt = unitOfWork.Products().findByIdWithCategory(request.getId().toString());
         if (productOpt.isEmpty())
             return Result.failure("Product not found");
 

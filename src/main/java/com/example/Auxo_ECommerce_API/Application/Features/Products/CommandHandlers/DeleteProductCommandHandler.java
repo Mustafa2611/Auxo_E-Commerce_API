@@ -13,10 +13,10 @@ import java.util.UUID;
 
 @AllArgsConstructor
 @Service("DeleteProductCommandHandler")
-public class DeleteProductCommandHandler implements ICommandHandler<DeleteProductCommand, UUID> {
+public class DeleteProductCommandHandler implements ICommandHandler<DeleteProductCommand, String> {
     private final IUnitOfWork _unitOfWork;
     @Override
-    public Result<UUID> handle(DeleteProductCommand request) {
+    public Result<String> handle(DeleteProductCommand request) {
         Optional<Product> product = _unitOfWork.Products().findById(request.getId());
         if(product.isEmpty())
             return Result.failure("product not found");

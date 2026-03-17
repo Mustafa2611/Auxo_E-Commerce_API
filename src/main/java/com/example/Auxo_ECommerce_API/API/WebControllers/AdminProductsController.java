@@ -119,7 +119,7 @@ public class AdminProductsController {
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable UUID id, Model model) {
         GetProductByIdQuery query = new GetProductByIdQuery();
-        query.setId(id);
+        query.setId(id.toString());
         var result = mediator.send(query);
 
         if (result.isFailure())
@@ -174,7 +174,7 @@ public class AdminProductsController {
     @GetMapping("/details/{id}")
     public String viewDetails(@PathVariable UUID id, Model model) {
         GetProductByIdQuery query = new GetProductByIdQuery();
-        query.setId(id);
+        query.setId(id.toString());
         var result = mediator.send(query);
 
         if (result.isFailure())
@@ -190,7 +190,7 @@ public class AdminProductsController {
     @GetMapping("/delete/{id}")
     public String deleteProduct(@PathVariable UUID id) {
         DeleteProductCommand command = new DeleteProductCommand();
-        command.setId(id);
+        command.setId(id.toString());
         mediator.send(command);
         return "redirect:/admin/products/index";
     }

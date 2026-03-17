@@ -12,10 +12,10 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface IProductRepository extends JpaRepository<Product, UUID> {
+public interface IProductRepository extends JpaRepository<Product, String> {
 
     @Query("SELECT p FROM Product p LEFT JOIN FETCH p.category WHERE p.id = :id")
-    Optional<Product> findByIdWithCategory(UUID id);
+    Optional<Product> findByIdWithCategory(String id);
 
 
     @Query("SELECT p FROM Product p LEFT JOIN FETCH p.category")

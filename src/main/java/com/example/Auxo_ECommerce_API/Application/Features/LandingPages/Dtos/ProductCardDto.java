@@ -8,7 +8,7 @@ import java.util.UUID;
 @Data
 @Builder
 public class ProductCardDto {
-    private UUID Id;
+    private String Id;
     private String NameAr;
     private String NameEn;
     private String ImageUrl;

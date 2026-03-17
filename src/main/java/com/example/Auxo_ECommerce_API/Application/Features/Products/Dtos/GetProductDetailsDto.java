@@ -17,7 +17,7 @@ import java.util.UUID;
 //@NoArgsConstructor
 @Builder
 public class GetProductDetailsDto{
-    private UUID id;
+    private String id;
     private String nameAr;
     private String nameEn;
     private String descriptionAr;

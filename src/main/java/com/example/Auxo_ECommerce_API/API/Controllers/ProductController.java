@@ -72,7 +72,7 @@ public class ProductController {
         return Result.success(result.getValue());
     }
     @GetMapping("/get-by-id")
-    public Result<GetProductDetailsDto> GetById(@RequestParam UUID Id)
+    public Result<GetProductDetailsDto> GetById(@RequestParam String Id)
     {
         Result<GetProductDetailsDto> result = mediator.send(new GetProductByIdQuery(Id));
 

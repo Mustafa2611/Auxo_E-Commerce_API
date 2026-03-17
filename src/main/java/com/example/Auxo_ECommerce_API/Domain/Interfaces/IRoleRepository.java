@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;
 
-public interface IRoleRepository extends JpaRepository<Role, UUID> {
+public interface IRoleRepository extends JpaRepository<Role, String> {
     boolean existsByName(String name);
     Role findByName(String name);
 }

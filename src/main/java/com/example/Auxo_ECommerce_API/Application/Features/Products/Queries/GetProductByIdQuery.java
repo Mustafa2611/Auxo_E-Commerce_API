@@ -13,5 +13,5 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GetProductByIdQuery implements IQuery<GetProductDetailsDto> {
-    private UUID Id;
+    private String Id;
 }

@@ -12,7 +12,7 @@ import java.util.UUID;
 @Data
 @Builder
 public class GetProductDetailsDto {
-    private UUID id;
+    private String id;
     private String nameAr;
     private String nameEn;
     private String descriptionAr;
