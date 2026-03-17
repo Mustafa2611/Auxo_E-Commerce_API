@@ -2,6 +2,7 @@ package com.example.Auxo_ECommerce_API.Domain.Entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.util.UUID;
@@ -20,8 +21,11 @@ public class Product {
 //    @Column(columnDefinition = "uniqueidentifier")
 //    private UUID id;
 @Id
-@GeneratedValue(strategy = GenerationType.UUID)
-@Column(name = "id", columnDefinition = "VARCHAR(36)", updatable = false, nullable = false)
+//@GeneratedValue(strategy = GenerationType.UUID)
+//@Column(name = "id", columnDefinition = "VARCHAR(36)", updatable = false, nullable = false)
+@GeneratedValue(generator = "UUID")
+@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+@Column(updatable = false, nullable = false, columnDefinition = "VARCHAR(36)")
 private UUID id;
     private String nameAr;
     private String nameEn;
