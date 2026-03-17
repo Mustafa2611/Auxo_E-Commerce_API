@@ -9,17 +9,6 @@ RUN mvn clean package -DskipTests
 FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
-
-# Create uploads directory for product images
 RUN mkdir -p /app/uploads/products
-
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
-```
-
-And create `.dockerignore` next to it:
-```
-target/
-*.iml
-.idea/
-.mvn/
