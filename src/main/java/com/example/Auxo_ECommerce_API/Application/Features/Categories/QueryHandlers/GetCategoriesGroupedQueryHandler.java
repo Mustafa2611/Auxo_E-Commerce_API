@@ -38,7 +38,8 @@ public class GetCategoriesGroupedQueryHandler
                                     sub.getParent() != null ? sub.getParent().getId() : null,
                                     sub.getParent() != null ? sub.getParent().getNameAr() : "—",
                                     sub.getParent() != null? sub.getParent().getNameEn() : "—",
-                                    sub.getType()
+                                    sub.getType(),
+                                    sub.getImageUrl()
                             ))
                             .collect(Collectors.toList());
 

@@ -16,4 +16,6 @@ public class GetCategoryDto {
     private String ParentNameAr;
     private String ParentNameEn;
     private CategoryType Type;
+    private String imageUrl;
+
 }

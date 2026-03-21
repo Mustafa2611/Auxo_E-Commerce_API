@@ -177,7 +177,8 @@ public class AdminCategoriesController {
                 p.getParentId(),
                 p.getParentNameAr(),
                 p.getParentNameEn(),
-                p.getType()
+                p.getType(),
+                p.getImageUrl()
         ));
     }
 //    @GetMapping("/parent/{id}")

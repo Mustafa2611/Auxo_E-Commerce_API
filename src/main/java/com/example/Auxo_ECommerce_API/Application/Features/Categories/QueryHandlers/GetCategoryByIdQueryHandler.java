@@ -36,7 +36,8 @@ public class GetCategoryByIdQueryHandler implements IQueryHandler<GetCategoryByI
                         sub.getParent() != null ? sub.getParent().getId() : null,
                         sub.getParent() != null ? sub.getParent().getNameAr() : null,
                         sub.getParent() != null ? sub.getParent().getNameEn() : null,
-                        sub.getType()
+                        sub.getType(),
+                        sub.getImageUrl()
                 ))
                 .collect(Collectors.toList());
         GetCategoryDetailsDto dto = new GetCategoryDetailsDto(
@@ -47,7 +48,8 @@ public class GetCategoryByIdQueryHandler implements IQueryHandler<GetCategoryByI
                 category.getParent() != null ? category.getParent().getId() : null,
                 category.getParent() != null ? category.getParent().getNameEn() : null,
                 category.getParent() != null ? category.getParent().getNameAr() : null,
-                subCategories
+                subCategories,
+                category.getImageUrl()
         );
 
         return Result.success(dto);

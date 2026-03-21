@@ -29,7 +29,8 @@ public class GetCategoriesQueryHandler implements IQueryHandler<GetCategoriesQue
                         c.getParent() != null ? c.getParent().getId() : null,
                         c.getParent() != null ? c.getParent().getNameAr() : null,
                         c.getParent() != null ? c.getParent().getNameEn() : null,
-                        c.getType()
+                        c.getType(),
+                        c.getImageUrl()
                 ))
                 .collect(Collectors.toList());
         return Result.success(categoryDtos);

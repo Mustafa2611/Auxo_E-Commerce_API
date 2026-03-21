@@ -17,4 +17,6 @@ public class GetCategoryDetailsDto {
     private String parentNameEn;
     private String parentNameAr;
     private List<GetCategoryDto> subCategories;
+    private String imageUrl;
+
 }

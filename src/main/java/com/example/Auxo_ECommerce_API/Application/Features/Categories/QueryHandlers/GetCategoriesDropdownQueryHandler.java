@@ -31,7 +31,8 @@ public class GetCategoriesDropdownQueryHandler implements IQueryHandler<GetCateg
                         c.getParent() != null ? c.getParent().getId() : null,
                         c.getParent() != null ? c.getParent().getNameAr() : null,
                         c.getParent() != null ? c.getParent().getNameEn() : null,
-                        c.getType()
+                        c.getType(),
+                        c.getImageUrl()
                     )
                 )
                 .collect(Collectors.toList());

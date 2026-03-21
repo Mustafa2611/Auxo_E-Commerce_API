@@ -29,6 +29,7 @@ public class Category {
     @Column(length = 50)
     @Builder.Default
     private CategoryType type = CategoryType.MAIN;
+    private String imageUrl; // ← add this
 
 
     @ManyToOne
