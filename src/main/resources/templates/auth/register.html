@@ -1,0 +1,1402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Auxo — Create Account</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+          --bg:        #080c12;
+          --surface:   #0d1420;
+          --border:    #1a2436;
+          --border-hv: #2a3a56;
+          --accent:    #3b7dfc;
+          --accent-hv: #5c96ff;
+          --text:      #e8edf5;
+          --muted:     #5a7090;
+          --faint:     #1e2f45;
+          --error-bg:  #1a0d0d;
+          --error-bd:  #6b2020;
+          --error-tx:  #f8a0a0;
+          --success-bg:#0d1a10;
+          --success-bd:#1a5c2a;
+          --success-tx:#86efac;
+        }
+
+        html, body {
+          min-height: 100%;
+          background: var(--bg);
+          color: var(--text);
+          font-family: 'DM Mono', monospace;
+          -webkit-font-smoothing: antialiased;
+        }
+
+        .page {
+          display: flex;
+          min-height: 100vh;
+        }
+
+        /* ── LEFT PANEL ─────────────────────────────── */
+        .panel-left {
+          flex: 0 0 38%;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          padding: 48px;
+          border-right: 1px solid var(--border);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .panel-left::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background:
+            radial-gradient(ellipse 60% 50% at 20% 80%, rgba(59,125,252,0.07) 0%, transparent 70%),
+            radial-gradient(ellipse 40% 60% at 80% 10%, rgba(59,125,252,0.04) 0%, transparent 60%);
+          pointer-events: none;
+        }
+
+        .brand {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          animation: fadeUp 0.6s ease both;
+        }
+
+        .brand-mark {
+          width: 38px; height: 38px;
+          border-radius: 10px;
+          background: var(--accent);
+          display: flex; align-items: center; justify-content: center;
+          font-family: 'Syne', sans-serif;
+          font-weight: 800;
+          font-size: 20px;
+          color: #fff;
+          flex-shrink: 0;
+        }
+
+        .brand-name {
+          font-family: 'Syne', sans-serif;
+          font-weight: 700;
+          font-size: 22px;
+          color: var(--text);
+          letter-spacing: -0.5px;
+        }
+
+        .panel-hero {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          padding-top: 40px;
+        }
+
+        .hero-label {
+          font-size: 11px;
+          letter-spacing: 2px;
+          text-transform: uppercase;
+          color: var(--accent);
+          margin-bottom: 20px;
+          animation: fadeUp 0.6s 0.1s ease both;
+        }
+
+        .hero-title {
+          font-family: 'Syne', sans-serif;
+          font-size: 40px;
+          font-weight: 800;
+          line-height: 1.1;
+          letter-spacing: -1.5px;
+          color: var(--text);
+          margin-bottom: 20px;
+          animation: fadeUp 0.6s 0.2s ease both;
+        }
+
+        .hero-title span { color: var(--accent); }
+
+        .hero-desc {
+          font-size: 13px;
+          color: var(--muted);
+          line-height: 1.7;
+          max-width: 280px;
+          font-weight: 300;
+          animation: fadeUp 0.6s 0.3s ease both;
+        }
+
+        /* Step progress on left panel */
+        .step-progress {
+          margin-top: 48px;
+          display: flex;
+          flex-direction: column;
+          gap: 0;
+          animation: fadeUp 0.6s 0.4s ease both;
+        }
+
+        .step-item {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 10px 0;
+        }
+
+        .step-num {
+          width: 28px; height: 28px;
+          border-radius: 50%;
+          display: flex; align-items: center; justify-content: center;
+          font-size: 12px;
+          font-weight: 500;
+          flex-shrink: 0;
+          transition: background 0.3s, border-color 0.3s, color 0.3s;
+        }
+
+        .step-num.active {
+          background: var(--accent);
+          color: #fff;
+          border: none;
+        }
+
+        .step-num.done {
+          background: #0f3a20;
+          border: 1px solid #1a5c2a;
+          color: #86efac;
+        }
+
+        .step-num.inactive {
+          background: var(--surface);
+          border: 1px solid var(--border);
+          color: var(--muted);
+        }
+
+        .step-label {
+          font-size: 12px;
+          transition: color 0.3s;
+        }
+
+        .step-connector {
+          width: 1px;
+          height: 20px;
+          background: var(--border);
+          margin-left: 13px;
+        }
+
+        .panel-footer {
+          font-size: 11px;
+          color: var(--faint);
+          animation: fadeUp 0.6s 0.5s ease both;
+        }
+
+        /* ── RIGHT PANEL ─────────────────────────────── */
+        .panel-right {
+          flex: 1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 48px 40px;
+        }
+
+        .form-wrap {
+          width: 100%;
+          max-width: 460px;
+          animation: fadeUp 0.7s 0.15s ease both;
+        }
+
+        .form-header {
+          margin-bottom: 32px;
+        }
+
+        .step-badge {
+          display: inline-block;
+          background: var(--surface);
+          border: 1px solid var(--border);
+          border-radius: 20px;
+          padding: 4px 12px;
+          font-size: 11px;
+          letter-spacing: 1px;
+          text-transform: uppercase;
+          color: var(--muted);
+          margin-bottom: 14px;
+        }
+
+        .form-title {
+          font-family: 'Syne', sans-serif;
+          font-size: 28px;
+          font-weight: 700;
+          color: var(--text);
+          letter-spacing: -0.7px;
+          margin-bottom: 6px;
+        }
+
+        .form-subtitle {
+          font-size: 13px;
+          color: var(--muted);
+          font-weight: 300;
+        }
+
+        /* ── FIELDS ─────────────────────────────────── */
+        .field-group {
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+          margin-bottom: 22px;
+        }
+
+        .field-row {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 12px;
+        }
+
+        .field {
+          display: flex;
+          flex-direction: column;
+          gap: 7px;
+        }
+
+        .field label {
+          font-size: 11px;
+          letter-spacing: 1px;
+          text-transform: uppercase;
+          color: var(--muted);
+          font-weight: 500;
+        }
+
+        .field input,
+        .field select {
+          width: 100%;
+          padding: 11px 14px;
+          background: var(--surface);
+          border: 1px solid var(--border);
+          border-radius: 10px;
+          color: var(--text);
+          font-family: 'DM Mono', monospace;
+          font-size: 13px;
+          font-weight: 300;
+          outline: none;
+          transition: border-color 0.2s, box-shadow 0.2s;
+          appearance: none;
+        }
+
+        .field select {
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%235a7090'/%3E%3C/svg%3E");
+          background-repeat: no-repeat;
+          background-position: right 14px center;
+          padding-right: 36px;
+        }
+
+        .field input::placeholder { color: var(--faint); }
+
+        .field input:focus,
+        .field select:focus {
+          border-color: var(--accent);
+          box-shadow: 0 0 0 3px rgba(59,125,252,0.12);
+        }
+
+        .input-wrap { position: relative; }
+
+        .toggle-pw {
+          position: absolute;
+          right: 12px; top: 50%;
+          transform: translateY(-50%);
+          background: none; border: none;
+          color: var(--muted);
+          cursor: pointer;
+          font-size: 13px;
+          padding: 4px;
+          transition: color 0.2s;
+        }
+        .toggle-pw:hover { color: var(--text); }
+
+        /* Password strength */
+        .pw-strength {
+          display: flex;
+          gap: 3px;
+          margin-top: 6px;
+        }
+        .pw-bar {
+          flex: 1;
+          height: 3px;
+          border-radius: 2px;
+          background: var(--border);
+          transition: background 0.3s;
+        }
+        .pw-label {
+          font-size: 10px;
+          letter-spacing: 0.5px;
+          margin-top: 4px;
+          transition: color 0.3s;
+        }
+
+        /* ── BUTTONS ─────────────────────────────────── */
+        .btn-row {
+          display: flex;
+          gap: 10px;
+        }
+
+        .btn-primary {
+          flex: 1;
+          padding: 13px;
+          background: var(--accent);
+          color: #fff;
+          border: none;
+          border-radius: 10px;
+          font-family: 'DM Mono', monospace;
+          font-size: 13px;
+          font-weight: 500;
+          letter-spacing: 0.5px;
+          cursor: pointer;
+          transition: background 0.2s, transform 0.1s;
+          display: flex; align-items: center; justify-content: center;
+          gap: 8px;
+        }
+
+        .btn-primary:hover { background: var(--accent-hv); }
+        .btn-primary:active { transform: scale(0.99); }
+        .btn-primary:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+
+        .btn-ghost {
+          padding: 13px 18px;
+          background: transparent;
+          color: var(--muted);
+          border: 1px solid var(--border);
+          border-radius: 10px;
+          font-family: 'DM Mono', monospace;
+          font-size: 13px;
+          cursor: pointer;
+          transition: border-color 0.2s, color 0.2s;
+        }
+        .btn-ghost:hover { border-color: var(--border-hv); color: var(--text); }
+
+        /* ── MESSAGES ─────────────────────────────── */
+        .msg {
+          border-radius: 8px;
+          padding: 11px 14px;
+          font-size: 12px;
+          margin-bottom: 18px;
+          display: none;
+        }
+        .msg.error   { background: var(--error-bg);   border: 1px solid var(--error-bd);   color: var(--error-tx);   }
+        .msg.success { background: var(--success-bg); border: 1px solid var(--success-bd); color: var(--success-tx); }
+        .msg.visible { display: block; }
+
+        /* ── SPINNER ─────────────────────────────────── */
+        .spinner {
+          width: 16px; height: 16px;
+          border: 2px solid rgba(255,255,255,0.3);
+          border-top-color: #fff;
+          border-radius: 50%;
+          animation: spin 0.7s linear infinite;
+          display: none;
+        }
+        .btn-primary.loading .spinner { display: inline-block; }
+        .btn-primary.loading .btn-label { display: none; }
+
+        /* ── SWITCH ─────────────────────────────────── */
+        .switch-text {
+          margin-top: 28px;
+          text-align: center;
+          font-size: 12px;
+          color: var(--muted);
+        }
+        .switch-text a {
+          color: var(--accent);
+          text-decoration: none;
+          font-weight: 500;
+          transition: color 0.2s;
+        }
+        .switch-text a:hover { color: var(--accent-hv); }
+
+        /* step panels */
+        .step-panel { display: none; }
+        .step-panel.active { display: block; }
+
+        /* ── ANIMATIONS ─────────────────────────────── */
+        @keyframes fadeUp {
+          from { opacity: 0; transform: translateY(16px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+          .panel-left { display: none; }
+          .panel-right { padding: 32px 24px; }
+          .field-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+
+    <!-- LEFT PANEL -->
+    <aside class="panel-left">
+        <div class="brand">
+            <div class="brand-mark">A</div>
+            <span class="brand-name">Auxo</span>
+        </div>
+
+        <div class="panel-hero">
+            <p class="hero-label">Get Started</p>
+            <h1 class="hero-title">Start selling<br><span>today.</span></h1>
+            <p class="hero-desc">Join merchants on the Auxo platform and manage your entire commerce operation in one place.</p>
+
+            <div class="step-progress" id="sideSteps">
+                <div class="step-item">
+                    <div class="step-num active" id="sideStep1">1</div>
+                    <span class="step-label" style="color: var(--text)">Account details</span>
+                </div>
+                <div class="step-connector"></div>
+                <div class="step-item">
+                    <div class="step-num inactive" id="sideStep2">2</div>
+                    <span class="step-label" id="sideLabel2">Security &amp; role</span>
+                </div>
+            </div>
+        </div>
+
+        <p class="panel-footer">© 2024 Auxo. All rights reserved.</p>
+    </aside>
+
+    <!-- RIGHT PANEL -->
+    <main class="panel-right">
+        <div class="form-wrap">
+
+            <div id="msg" class="msg"></div>
+
+            <!-- STEP 1 -->
+            <div class="step-panel active" id="stepPanel1">
+                <div class="form-header">
+                    <span class="step-badge">Step 1 of 2</span>
+                    <h2 class="form-title">Create your account</h2>
+                    <p class="form-subtitle">Your basic info to get started on Auxo</p>
+                </div>
+
+                <div class="field-group">
+                    <div class="field-row">
+                        <div class="field">
+                            <label for="userName">Username</label>
+                            <input type="text" id="userName" placeholder="johndoe" autocomplete="username" />
+                        </div>
+                        <div class="field">
+                            <label for="phoneNumber">Phone number</label>
+                            <input type="tel" id="phoneNumber" placeholder="+20 100 000 0000" />
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label for="email">Email address</label>
+                        <input type="email" id="email" placeholder="you@company.com" autocomplete="email" />
+                    </div>
+
+                    <div class="field">
+                        <label for="imageUrl">Profile image URL <span style="color:var(--faint)">(optional)</span></label>
+                        <input type="url" id="imageUrl" placeholder="https://example.com/avatar.png" />
+                    </div>
+                </div>
+
+                <button type="button" class="btn-primary" onclick="goToStep2()">
+                    Continue →
+                </button>
+            </div>
+
+            <!-- STEP 2 -->
+            <div class="step-panel" id="stepPanel2">
+                <div class="form-header">
+                    <span class="step-badge">Step 2 of 2</span>
+                    <h2 class="form-title">Security &amp; role</h2>
+                    <p class="form-subtitle">Set your password and account role</p>
+                </div>
+
+                <div class="field-group">
+                    <div class="field">
+                        <label for="role">Account role</label>
+                        <select id="role">
+                            <option value="User">User</option>
+
+                            <option value="Admin">Admin</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label for="password">Password</label>
+                        <div class="input-wrap">
+                            <input type="password" id="password" placeholder="Min. 6 characters" autocomplete="new-password" oninput="updateStrength(this.value)" />
+                            <button type="button" class="toggle-pw" id="togglePw1">👁</button>
+                        </div>
+                        <div class="pw-strength">
+                            <div class="pw-bar" id="bar1"></div>
+                            <div class="pw-bar" id="bar2"></div>
+                            <div class="pw-bar" id="bar3"></div>
+                            <div class="pw-bar" id="bar4"></div>
+                            <div class="pw-bar" id="bar5"></div>
+                        </div>
+                        <p class="pw-label" id="pwLabel" style="color: var(--muted)"></p>
+                    </div>
+
+                    <div class="field">
+                        <label for="confirmPassword">Confirm password</label>
+                        <div class="input-wrap">
+                            <input type="password" id="confirmPassword" placeholder="Repeat your password" autocomplete="new-password" />
+                            <button type="button" class="toggle-pw" id="togglePw2">👁</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="btn-row">
+                    <button type="button" class="btn-ghost" onclick="goToStep1()">← Back</button>
+                    <button type="button" class="btn-primary" id="submitBtn" onclick="submitForm()">
+                        <span class="btn-label">Create account →</span>
+                        <span class="spinner"></span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="switch-text">
+                Already have an account? <a href="/auth/login">Sign in</a>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+    // ── step navigation ──────────────────────────────
+    function goToStep2() {
+      clearMsg();
+      const uname = document.getElementById('userName').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phoneNumber').value.trim();
+
+      if (!uname) { showMsg('Username is required.', 'error'); return; }
+      if (!email)  { showMsg('Email address is required.', 'error'); return; }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showMsg('Enter a valid email address.', 'error'); return; }
+      if (!phone)  { showMsg('Phone number is required.', 'error'); return; }
+
+      document.getElementById('stepPanel1').classList.remove('active');
+      document.getElementById('stepPanel2').classList.add('active');
+      updateSideSteps(2);
+    }
+
+    function goToStep1() {
+      clearMsg();
+      document.getElementById('stepPanel2').classList.remove('active');
+      document.getElementById('stepPanel1').classList.add('active');
+      updateSideSteps(1);
+    }
+
+    function updateSideSteps(step) {
+      const s1 = document.getElementById('sideStep1');
+      const s2 = document.getElementById('sideStep2');
+      const l2 = document.getElementById('sideLabel2');
+      if (step === 2) {
+        s1.className = 'step-num done'; s1.textContent = '✓';
+        s2.className = 'step-num active'; s2.textContent = '2';
+        l2.style.color = 'var(--text)';
+      } else {
+        s1.className = 'step-num active'; s1.textContent = '1';
+        s2.className = 'step-num inactive'; s2.textContent = '2';
+        l2.style.color = '';
+      }
+    }
+
+    // ── password toggle ──────────────────────────────
+    document.getElementById('togglePw1').addEventListener('click', function() {
+      const inp = document.getElementById('password');
+      const isText = inp.type === 'text';
+      inp.type = isText ? 'password' : 'text';
+      this.textContent = isText ? '👁' : '🙈';
+    });
+    document.getElementById('togglePw2').addEventListener('click', function() {
+      const inp = document.getElementById('confirmPassword');
+      const isText = inp.type === 'text';
+      inp.type = isText ? 'password' : 'text';
+      this.textContent = isText ? '👁' : '🙈';
+    });
+
+    // ── password strength ────────────────────────────
+    const strengthColors = ['', '#ef4444','#f97316','#eab308','#22c55e','#3b82f6'];
+    const strengthLabels = ['', 'Weak', 'Fair', 'Good', 'Strong', 'Very strong'];
+
+    function updateStrength(pw) {
+      let score = 0;
+      if (pw.length >= 6)  score++;
+      if (pw.length >= 10) score++;
+      if (/[A-Z]/.test(pw)) score++;
+      if (/[0-9]/.test(pw)) score++;
+      if (/[^a-zA-Z0-9]/.test(pw)) score++;
+
+      const color = pw ? strengthColors[score] : 'var(--border)';
+      for (let i = 1; i <= 5; i++) {
+        document.getElementById('bar' + i).style.background = i <= score ? strengthColors[score] : 'var(--border)';
+      }
+      const lbl = document.getElementById('pwLabel');
+      lbl.textContent = pw ? strengthLabels[score] : '';
+      lbl.style.color = pw ? strengthColors[score] : 'var(--muted)';
+    }
+
+    // ── messages ─────────────────────────────────────
+    function showMsg(text, type) {
+      const el = document.getElementById('msg');
+      el.textContent = text;
+      el.className = `msg ${type} visible`;
+      el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+    function clearMsg() {
+      document.getElementById('msg').className = 'msg';
+    }
+
+    // ── submit ────────────────────────────────────────
+    async function submitForm() {
+      clearMsg();
+
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+
+      if (!password) { showMsg('Password is required.', 'error'); return; }
+      if (password.length < 6) { showMsg('Password must be at least 6 characters.', 'error'); return; }
+      if (password !== confirmPassword) { showMsg('Passwords do not match.', 'error'); return; }
+
+      const payload = {
+        UserName:        document.getElementById('userName').value.trim(),
+        Email:           document.getElementById('email').value.trim(),
+        PhoneNumber:     document.getElementById('phoneNumber').value.trim(),
+        ImageUrl:        document.getElementById('imageUrl').value.trim(),
+        Role:            document.getElementById('role').value,
+        Password:        password,
+        confirmPassword: confirmPassword
+      };
+
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      btn.classList.add('loading');
+
+      try {
+        const res = await fetch('/auth/api/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+
+        if (data.isSuccess) {
+          showMsg('Account created! Redirecting to login…', 'success');
+          setTimeout(() => window.location.href = '/auth/login', 1500);
+        } else {
+          showMsg(data.error || 'Registration failed. Please try again.', 'error');
+        }
+      } catch (err) {
+        showMsg('Network error. Please check your connection.', 'error');
+      } finally {
+        btn.disabled = false;
+        btn.classList.remove('loading');
+      }
+    }
+</script>
+</body>
+</html>
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8" />-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0" />-->
+<!--    <title>Auxo — Create Account</title>-->
+<!--    <link rel="preconnect" href="https://fonts.googleapis.com" />-->
+<!--    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />-->
+<!--    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />-->
+<!--    <style>-->
+<!--        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }-->
+
+<!--        :root {-->
+<!--          &#45;&#45;bg:        #080c12;-->
+<!--          &#45;&#45;surface:   #0d1420;-->
+<!--          &#45;&#45;border:    #1a2436;-->
+<!--          &#45;&#45;border-hv: #2a3a56;-->
+<!--          &#45;&#45;accent:    #3b7dfc;-->
+<!--          &#45;&#45;accent-hv: #5c96ff;-->
+<!--          &#45;&#45;text:      #e8edf5;-->
+<!--          &#45;&#45;muted:     #5a7090;-->
+<!--          &#45;&#45;faint:     #1e2f45;-->
+<!--          &#45;&#45;error-bg:  #1a0d0d;-->
+<!--          &#45;&#45;error-bd:  #6b2020;-->
+<!--          &#45;&#45;error-tx:  #f8a0a0;-->
+<!--          &#45;&#45;success-bg:#0d1a10;-->
+<!--          &#45;&#45;success-bd:#1a5c2a;-->
+<!--          &#45;&#45;success-tx:#86efac;-->
+<!--        }-->
+
+<!--        html, body {-->
+<!--          min-height: 100%;-->
+<!--          background: var(&#45;&#45;bg);-->
+<!--          color: var(&#45;&#45;text);-->
+<!--          font-family: 'DM Mono', monospace;-->
+<!--          -webkit-font-smoothing: antialiased;-->
+<!--        }-->
+
+<!--        .page {-->
+<!--          display: flex;-->
+<!--          min-height: 100vh;-->
+<!--        }-->
+
+<!--        /* ── LEFT PANEL ─────────────────────────────── */-->
+<!--        .panel-left {-->
+<!--          flex: 0 0 38%;-->
+<!--          display: flex;-->
+<!--          flex-direction: column;-->
+<!--          justify-content: space-between;-->
+<!--          padding: 48px;-->
+<!--          border-right: 1px solid var(&#45;&#45;border);-->
+<!--          position: relative;-->
+<!--          overflow: hidden;-->
+<!--        }-->
+
+<!--        .panel-left::before {-->
+<!--          content: '';-->
+<!--          position: absolute;-->
+<!--          inset: 0;-->
+<!--          background:-->
+<!--            radial-gradient(ellipse 60% 50% at 20% 80%, rgba(59,125,252,0.07) 0%, transparent 70%),-->
+<!--            radial-gradient(ellipse 40% 60% at 80% 10%, rgba(59,125,252,0.04) 0%, transparent 60%);-->
+<!--          pointer-events: none;-->
+<!--        }-->
+
+<!--        .brand {-->
+<!--          display: flex;-->
+<!--          align-items: center;-->
+<!--          gap: 12px;-->
+<!--          animation: fadeUp 0.6s ease both;-->
+<!--        }-->
+
+<!--        .brand-mark {-->
+<!--          width: 38px; height: 38px;-->
+<!--          border-radius: 10px;-->
+<!--          background: var(&#45;&#45;accent);-->
+<!--          display: flex; align-items: center; justify-content: center;-->
+<!--          font-family: 'Syne', sans-serif;-->
+<!--          font-weight: 800;-->
+<!--          font-size: 20px;-->
+<!--          color: #fff;-->
+<!--          flex-shrink: 0;-->
+<!--        }-->
+
+<!--        .brand-name {-->
+<!--          font-family: 'Syne', sans-serif;-->
+<!--          font-weight: 700;-->
+<!--          font-size: 22px;-->
+<!--          color: var(&#45;&#45;text);-->
+<!--          letter-spacing: -0.5px;-->
+<!--        }-->
+
+<!--        .panel-hero {-->
+<!--          flex: 1;-->
+<!--          display: flex;-->
+<!--          flex-direction: column;-->
+<!--          justify-content: center;-->
+<!--          padding-top: 40px;-->
+<!--        }-->
+
+<!--        .hero-label {-->
+<!--          font-size: 11px;-->
+<!--          letter-spacing: 2px;-->
+<!--          text-transform: uppercase;-->
+<!--          color: var(&#45;&#45;accent);-->
+<!--          margin-bottom: 20px;-->
+<!--          animation: fadeUp 0.6s 0.1s ease both;-->
+<!--        }-->
+
+<!--        .hero-title {-->
+<!--          font-family: 'Syne', sans-serif;-->
+<!--          font-size: 40px;-->
+<!--          font-weight: 800;-->
+<!--          line-height: 1.1;-->
+<!--          letter-spacing: -1.5px;-->
+<!--          color: var(&#45;&#45;text);-->
+<!--          margin-bottom: 20px;-->
+<!--          animation: fadeUp 0.6s 0.2s ease both;-->
+<!--        }-->
+
+<!--        .hero-title span { color: var(&#45;&#45;accent); }-->
+
+<!--        .hero-desc {-->
+<!--          font-size: 13px;-->
+<!--          color: var(&#45;&#45;muted);-->
+<!--          line-height: 1.7;-->
+<!--          max-width: 280px;-->
+<!--          font-weight: 300;-->
+<!--          animation: fadeUp 0.6s 0.3s ease both;-->
+<!--        }-->
+
+<!--        /* Step progress on left panel */-->
+<!--        .step-progress {-->
+<!--          margin-top: 48px;-->
+<!--          display: flex;-->
+<!--          flex-direction: column;-->
+<!--          gap: 0;-->
+<!--          animation: fadeUp 0.6s 0.4s ease both;-->
+<!--        }-->
+
+<!--        .step-item {-->
+<!--          display: flex;-->
+<!--          align-items: center;-->
+<!--          gap: 12px;-->
+<!--          padding: 10px 0;-->
+<!--        }-->
+
+<!--        .step-num {-->
+<!--          width: 28px; height: 28px;-->
+<!--          border-radius: 50%;-->
+<!--          display: flex; align-items: center; justify-content: center;-->
+<!--          font-size: 12px;-->
+<!--          font-weight: 500;-->
+<!--          flex-shrink: 0;-->
+<!--          transition: background 0.3s, border-color 0.3s, color 0.3s;-->
+<!--        }-->
+
+<!--        .step-num.active {-->
+<!--          background: var(&#45;&#45;accent);-->
+<!--          color: #fff;-->
+<!--          border: none;-->
+<!--        }-->
+
+<!--        .step-num.done {-->
+<!--          background: #0f3a20;-->
+<!--          border: 1px solid #1a5c2a;-->
+<!--          color: #86efac;-->
+<!--        }-->
+
+<!--        .step-num.inactive {-->
+<!--          background: var(&#45;&#45;surface);-->
+<!--          border: 1px solid var(&#45;&#45;border);-->
+<!--          color: var(&#45;&#45;muted);-->
+<!--        }-->
+
+<!--        .step-label {-->
+<!--          font-size: 12px;-->
+<!--          transition: color 0.3s;-->
+<!--        }-->
+
+<!--        .step-connector {-->
+<!--          width: 1px;-->
+<!--          height: 20px;-->
+<!--          background: var(&#45;&#45;border);-->
+<!--          margin-left: 13px;-->
+<!--        }-->
+
+<!--        .panel-footer {-->
+<!--          font-size: 11px;-->
+<!--          color: var(&#45;&#45;faint);-->
+<!--          animation: fadeUp 0.6s 0.5s ease both;-->
+<!--        }-->
+
+<!--        /* ── RIGHT PANEL ─────────────────────────────── */-->
+<!--        .panel-right {-->
+<!--          flex: 1;-->
+<!--          display: flex;-->
+<!--          align-items: center;-->
+<!--          justify-content: center;-->
+<!--          padding: 48px 40px;-->
+<!--        }-->
+
+<!--        .form-wrap {-->
+<!--          width: 100%;-->
+<!--          max-width: 460px;-->
+<!--          animation: fadeUp 0.7s 0.15s ease both;-->
+<!--        }-->
+
+<!--        .form-header {-->
+<!--          margin-bottom: 32px;-->
+<!--        }-->
+
+<!--        .step-badge {-->
+<!--          display: inline-block;-->
+<!--          background: var(&#45;&#45;surface);-->
+<!--          border: 1px solid var(&#45;&#45;border);-->
+<!--          border-radius: 20px;-->
+<!--          padding: 4px 12px;-->
+<!--          font-size: 11px;-->
+<!--          letter-spacing: 1px;-->
+<!--          text-transform: uppercase;-->
+<!--          color: var(&#45;&#45;muted);-->
+<!--          margin-bottom: 14px;-->
+<!--        }-->
+
+<!--        .form-title {-->
+<!--          font-family: 'Syne', sans-serif;-->
+<!--          font-size: 28px;-->
+<!--          font-weight: 700;-->
+<!--          color: var(&#45;&#45;text);-->
+<!--          letter-spacing: -0.7px;-->
+<!--          margin-bottom: 6px;-->
+<!--        }-->
+
+<!--        .form-subtitle {-->
+<!--          font-size: 13px;-->
+<!--          color: var(&#45;&#45;muted);-->
+<!--          font-weight: 300;-->
+<!--        }-->
+
+<!--        /* ── FIELDS ─────────────────────────────────── */-->
+<!--        .field-group {-->
+<!--          display: flex;-->
+<!--          flex-direction: column;-->
+<!--          gap: 16px;-->
+<!--          margin-bottom: 22px;-->
+<!--        }-->
+
+<!--        .field-row {-->
+<!--          display: grid;-->
+<!--          grid-template-columns: 1fr 1fr;-->
+<!--          gap: 12px;-->
+<!--        }-->
+
+<!--        .field {-->
+<!--          display: flex;-->
+<!--          flex-direction: column;-->
+<!--          gap: 7px;-->
+<!--        }-->
+
+<!--        .field label {-->
+<!--          font-size: 11px;-->
+<!--          letter-spacing: 1px;-->
+<!--          text-transform: uppercase;-->
+<!--          color: var(&#45;&#45;muted);-->
+<!--          font-weight: 500;-->
+<!--        }-->
+
+<!--        .field input,-->
+<!--        .field select {-->
+<!--          width: 100%;-->
+<!--          padding: 11px 14px;-->
+<!--          background: var(&#45;&#45;surface);-->
+<!--          border: 1px solid var(&#45;&#45;border);-->
+<!--          border-radius: 10px;-->
+<!--          color: var(&#45;&#45;text);-->
+<!--          font-family: 'DM Mono', monospace;-->
+<!--          font-size: 13px;-->
+<!--          font-weight: 300;-->
+<!--          outline: none;-->
+<!--          transition: border-color 0.2s, box-shadow 0.2s;-->
+<!--          appearance: none;-->
+<!--        }-->
+
+<!--        .field select {-->
+<!--          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%235a7090'/%3E%3C/svg%3E");-->
+<!--          background-repeat: no-repeat;-->
+<!--          background-position: right 14px center;-->
+<!--          padding-right: 36px;-->
+<!--        }-->
+
+<!--        .field input::placeholder { color: var(&#45;&#45;faint); }-->
+
+<!--        .field input:focus,-->
+<!--        .field select:focus {-->
+<!--          border-color: var(&#45;&#45;accent);-->
+<!--          box-shadow: 0 0 0 3px rgba(59,125,252,0.12);-->
+<!--        }-->
+
+<!--        .input-wrap { position: relative; }-->
+
+<!--        .toggle-pw {-->
+<!--          position: absolute;-->
+<!--          right: 12px; top: 50%;-->
+<!--          transform: translateY(-50%);-->
+<!--          background: none; border: none;-->
+<!--          color: var(&#45;&#45;muted);-->
+<!--          cursor: pointer;-->
+<!--          font-size: 13px;-->
+<!--          padding: 4px;-->
+<!--          transition: color 0.2s;-->
+<!--        }-->
+<!--        .toggle-pw:hover { color: var(&#45;&#45;text); }-->
+
+<!--        /* Password strength */-->
+<!--        .pw-strength {-->
+<!--          display: flex;-->
+<!--          gap: 3px;-->
+<!--          margin-top: 6px;-->
+<!--        }-->
+<!--        .pw-bar {-->
+<!--          flex: 1;-->
+<!--          height: 3px;-->
+<!--          border-radius: 2px;-->
+<!--          background: var(&#45;&#45;border);-->
+<!--          transition: background 0.3s;-->
+<!--        }-->
+<!--        .pw-label {-->
+<!--          font-size: 10px;-->
+<!--          letter-spacing: 0.5px;-->
+<!--          margin-top: 4px;-->
+<!--          transition: color 0.3s;-->
+<!--        }-->
+
+<!--        /* ── BUTTONS ─────────────────────────────────── */-->
+<!--        .btn-row {-->
+<!--          display: flex;-->
+<!--          gap: 10px;-->
+<!--        }-->
+
+<!--        .btn-primary {-->
+<!--          flex: 1;-->
+<!--          padding: 13px;-->
+<!--          background: var(&#45;&#45;accent);-->
+<!--          color: #fff;-->
+<!--          border: none;-->
+<!--          border-radius: 10px;-->
+<!--          font-family: 'DM Mono', monospace;-->
+<!--          font-size: 13px;-->
+<!--          font-weight: 500;-->
+<!--          letter-spacing: 0.5px;-->
+<!--          cursor: pointer;-->
+<!--          transition: background 0.2s, transform 0.1s;-->
+<!--          display: flex; align-items: center; justify-content: center;-->
+<!--          gap: 8px;-->
+<!--        }-->
+
+<!--        .btn-primary:hover { background: var(&#45;&#45;accent-hv); }-->
+<!--        .btn-primary:active { transform: scale(0.99); }-->
+<!--        .btn-primary:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }-->
+
+<!--        .btn-ghost {-->
+<!--          padding: 13px 18px;-->
+<!--          background: transparent;-->
+<!--          color: var(&#45;&#45;muted);-->
+<!--          border: 1px solid var(&#45;&#45;border);-->
+<!--          border-radius: 10px;-->
+<!--          font-family: 'DM Mono', monospace;-->
+<!--          font-size: 13px;-->
+<!--          cursor: pointer;-->
+<!--          transition: border-color 0.2s, color 0.2s;-->
+<!--        }-->
+<!--        .btn-ghost:hover { border-color: var(&#45;&#45;border-hv); color: var(&#45;&#45;text); }-->
+
+<!--        /* ── MESSAGES ─────────────────────────────── */-->
+<!--        .msg {-->
+<!--          border-radius: 8px;-->
+<!--          padding: 11px 14px;-->
+<!--          font-size: 12px;-->
+<!--          margin-bottom: 18px;-->
+<!--          display: none;-->
+<!--        }-->
+<!--        .msg.error   { background: var(&#45;&#45;error-bg);   border: 1px solid var(&#45;&#45;error-bd);   color: var(&#45;&#45;error-tx);   }-->
+<!--        .msg.success { background: var(&#45;&#45;success-bg); border: 1px solid var(&#45;&#45;success-bd); color: var(&#45;&#45;success-tx); }-->
+<!--        .msg.visible { display: block; }-->
+
+<!--        /* ── SPINNER ─────────────────────────────────── */-->
+<!--        .spinner {-->
+<!--          width: 16px; height: 16px;-->
+<!--          border: 2px solid rgba(255,255,255,0.3);-->
+<!--          border-top-color: #fff;-->
+<!--          border-radius: 50%;-->
+<!--          animation: spin 0.7s linear infinite;-->
+<!--          display: none;-->
+<!--        }-->
+<!--        .btn-primary.loading .spinner { display: inline-block; }-->
+<!--        .btn-primary.loading .btn-label { display: none; }-->
+
+<!--        /* ── SWITCH ─────────────────────────────────── */-->
+<!--        .switch-text {-->
+<!--          margin-top: 28px;-->
+<!--          text-align: center;-->
+<!--          font-size: 12px;-->
+<!--          color: var(&#45;&#45;muted);-->
+<!--        }-->
+<!--        .switch-text a {-->
+<!--          color: var(&#45;&#45;accent);-->
+<!--          text-decoration: none;-->
+<!--          font-weight: 500;-->
+<!--          transition: color 0.2s;-->
+<!--        }-->
+<!--        .switch-text a:hover { color: var(&#45;&#45;accent-hv); }-->
+
+<!--        /* step panels */-->
+<!--        .step-panel { display: none; }-->
+<!--        .step-panel.active { display: block; }-->
+
+<!--        /* ── ANIMATIONS ─────────────────────────────── */-->
+<!--        @keyframes fadeUp {-->
+<!--          from { opacity: 0; transform: translateY(16px); }-->
+<!--          to   { opacity: 1; transform: translateY(0); }-->
+<!--        }-->
+<!--        @keyframes spin {-->
+<!--          to { transform: rotate(360deg); }-->
+<!--        }-->
+
+<!--        @media (max-width: 768px) {-->
+<!--          .panel-left { display: none; }-->
+<!--          .panel-right { padding: 32px 24px; }-->
+<!--          .field-row { grid-template-columns: 1fr; }-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="page">-->
+
+<!--    &lt;!&ndash; LEFT PANEL &ndash;&gt;-->
+<!--    <aside class="panel-left">-->
+<!--        <div class="brand">-->
+<!--            <div class="brand-mark">A</div>-->
+<!--            <span class="brand-name">Auxo</span>-->
+<!--        </div>-->
+
+<!--        <div class="panel-hero">-->
+<!--            <p class="hero-label">Get Started</p>-->
+<!--            <h1 class="hero-title">Start selling<br><span>today.</span></h1>-->
+<!--            <p class="hero-desc">Join merchants on the Auxo platform and manage your entire commerce operation in one place.</p>-->
+
+<!--            <div class="step-progress" id="sideSteps">-->
+<!--                <div class="step-item">-->
+<!--                    <div class="step-num active" id="sideStep1">1</div>-->
+<!--                    <span class="step-label" style="color: var(&#45;&#45;text)">Account details</span>-->
+<!--                </div>-->
+<!--                <div class="step-connector"></div>-->
+<!--                <div class="step-item">-->
+<!--                    <div class="step-num inactive" id="sideStep2">2</div>-->
+<!--                    <span class="step-label" id="sideLabel2">Security &amp; role</span>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <p class="panel-footer">© 2024 Auxo. All rights reserved.</p>-->
+<!--    </aside>-->
+
+<!--    &lt;!&ndash; RIGHT PANEL &ndash;&gt;-->
+<!--    <main class="panel-right">-->
+<!--        <div class="form-wrap">-->
+
+<!--            <div id="msg" class="msg"></div>-->
+
+<!--            &lt;!&ndash; STEP 1 &ndash;&gt;-->
+<!--            <div class="step-panel active" id="stepPanel1">-->
+<!--                <div class="form-header">-->
+<!--                    <span class="step-badge">Step 1 of 2</span>-->
+<!--                    <h2 class="form-title">Create your account</h2>-->
+<!--                    <p class="form-subtitle">Your basic info to get started on Auxo</p>-->
+<!--                </div>-->
+
+<!--                <div class="field-group">-->
+<!--                    <div class="field-row">-->
+<!--                        <div class="field">-->
+<!--                            <label for="userName">Username</label>-->
+<!--                            <input type="text" id="userName" placeholder="johndoe" autocomplete="username" />-->
+<!--                        </div>-->
+<!--                        <div class="field">-->
+<!--                            <label for="phoneNumber">Phone number</label>-->
+<!--                            <input type="tel" id="phoneNumber" placeholder="+20 100 000 0000" />-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                    <div class="field">-->
+<!--                        <label for="email">Email address</label>-->
+<!--                        <input type="email" id="email" placeholder="you@company.com" autocomplete="email" />-->
+<!--                    </div>-->
+
+<!--                    <div class="field">-->
+<!--                        <label for="imageUrl">Profile image URL <span style="color:var(&#45;&#45;faint)">(optional)</span></label>-->
+<!--                        <input type="url" id="imageUrl" placeholder="https://example.com/avatar.png" />-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                <button type="button" class="btn-primary" onclick="goToStep2()">-->
+<!--                    Continue →-->
+<!--                </button>-->
+<!--            </div>-->
+
+<!--            &lt;!&ndash; STEP 2 &ndash;&gt;-->
+<!--            <div class="step-panel" id="stepPanel2">-->
+<!--                <div class="form-header">-->
+<!--                    <span class="step-badge">Step 2 of 2</span>-->
+<!--                    <h2 class="form-title">Security &amp; role</h2>-->
+<!--                    <p class="form-subtitle">Set your password and account role</p>-->
+<!--                </div>-->
+
+<!--                <div class="field-group">-->
+<!--                    <div class="field">-->
+<!--                        <label for="role">Account role</label>-->
+<!--                        <select id="role">-->
+<!--                            <option value="CUSTOMER">Customer</option>-->
+<!--                            <option value="SELLER">Seller</option>-->
+<!--                            <option value="ADMIN">Admin</option>-->
+<!--                        </select>-->
+<!--                    </div>-->
+
+<!--                    <div class="field">-->
+<!--                        <label for="password">Password</label>-->
+<!--                        <div class="input-wrap">-->
+<!--                            <input type="password" id="password" placeholder="Min. 6 characters" autocomplete="new-password" oninput="updateStrength(this.value)" />-->
+<!--                            <button type="button" class="toggle-pw" id="togglePw1">👁</button>-->
+<!--                        </div>-->
+<!--                        <div class="pw-strength">-->
+<!--                            <div class="pw-bar" id="bar1"></div>-->
+<!--                            <div class="pw-bar" id="bar2"></div>-->
+<!--                            <div class="pw-bar" id="bar3"></div>-->
+<!--                            <div class="pw-bar" id="bar4"></div>-->
+<!--                            <div class="pw-bar" id="bar5"></div>-->
+<!--                        </div>-->
+<!--                        <p class="pw-label" id="pwLabel" style="color: var(&#45;&#45;muted)"></p>-->
+<!--                    </div>-->
+
+<!--                    <div class="field">-->
+<!--                        <label for="confirmPassword">Confirm password</label>-->
+<!--                        <div class="input-wrap">-->
+<!--                            <input type="password" id="confirmPassword" placeholder="Repeat your password" autocomplete="new-password" />-->
+<!--                            <button type="button" class="toggle-pw" id="togglePw2">👁</button>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                <div class="btn-row">-->
+<!--                    <button type="button" class="btn-ghost" onclick="goToStep1()">← Back</button>-->
+<!--                    <button type="button" class="btn-primary" id="submitBtn" onclick="submitForm()">-->
+<!--                        <span class="btn-label">Create account →</span>-->
+<!--                        <span class="spinner"></span>-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div class="switch-text">-->
+<!--                Already have an account? <a href="/auth/login">Sign in</a>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </main>-->
+<!--</div>-->
+
+<!--<script>-->
+<!--    // ── step navigation ──────────────────────────────-->
+<!--    function goToStep2() {-->
+<!--      clearMsg();-->
+<!--      const uname = document.getElementById('userName').value.trim();-->
+<!--      const email = document.getElementById('email').value.trim();-->
+<!--      const phone = document.getElementById('phoneNumber').value.trim();-->
+
+<!--      if (!uname) { showMsg('Username is required.', 'error'); return; }-->
+<!--      if (!email)  { showMsg('Email address is required.', 'error'); return; }-->
+<!--      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showMsg('Enter a valid email address.', 'error'); return; }-->
+<!--      if (!phone)  { showMsg('Phone number is required.', 'error'); return; }-->
+
+<!--      document.getElementById('stepPanel1').classList.remove('active');-->
+<!--      document.getElementById('stepPanel2').classList.add('active');-->
+<!--      updateSideSteps(2);-->
+<!--    }-->
+
+<!--    function goToStep1() {-->
+<!--      clearMsg();-->
+<!--      document.getElementById('stepPanel2').classList.remove('active');-->
+<!--      document.getElementById('stepPanel1').classList.add('active');-->
+<!--      updateSideSteps(1);-->
+<!--    }-->
+
+<!--    function updateSideSteps(step) {-->
+<!--      const s1 = document.getElementById('sideStep1');-->
+<!--      const s2 = document.getElementById('sideStep2');-->
+<!--      const l2 = document.getElementById('sideLabel2');-->
+<!--      if (step === 2) {-->
+<!--        s1.className = 'step-num done'; s1.textContent = '✓';-->
+<!--        s2.className = 'step-num active'; s2.textContent = '2';-->
+<!--        l2.style.color = 'var(&#45;&#45;text)';-->
+<!--      } else {-->
+<!--        s1.className = 'step-num active'; s1.textContent = '1';-->
+<!--        s2.className = 'step-num inactive'; s2.textContent = '2';-->
+<!--        l2.style.color = '';-->
+<!--      }-->
+<!--    }-->
+
+<!--    // ── password toggle ──────────────────────────────-->
+<!--    document.getElementById('togglePw1').addEventListener('click', function() {-->
+<!--      const inp = document.getElementById('password');-->
+<!--      const isText = inp.type === 'text';-->
+<!--      inp.type = isText ? 'password' : 'text';-->
+<!--      this.textContent = isText ? '👁' : '🙈';-->
+<!--    });-->
+<!--    document.getElementById('togglePw2').addEventListener('click', function() {-->
+<!--      const inp = document.getElementById('confirmPassword');-->
+<!--      const isText = inp.type === 'text';-->
+<!--      inp.type = isText ? 'password' : 'text';-->
+<!--      this.textContent = isText ? '👁' : '🙈';-->
+<!--    });-->
+
+<!--    // ── password strength ────────────────────────────-->
+<!--    const strengthColors = ['', '#ef4444','#f97316','#eab308','#22c55e','#3b82f6'];-->
+<!--    const strengthLabels = ['', 'Weak', 'Fair', 'Good', 'Strong', 'Very strong'];-->
+
+<!--    function updateStrength(pw) {-->
+<!--      let score = 0;-->
+<!--      if (pw.length >= 6)  score++;-->
+<!--      if (pw.length >= 10) score++;-->
+<!--      if (/[A-Z]/.test(pw)) score++;-->
+<!--      if (/[0-9]/.test(pw)) score++;-->
+<!--      if (/[^a-zA-Z0-9]/.test(pw)) score++;-->
+
+<!--      const color = pw ? strengthColors[score] : 'var(&#45;&#45;border)';-->
+<!--      for (let i = 1; i <= 5; i++) {-->
+<!--        document.getElementById('bar' + i).style.background = i <= score ? strengthColors[score] : 'var(&#45;&#45;border)';-->
+<!--      }-->
+<!--      const lbl = document.getElementById('pwLabel');-->
+<!--      lbl.textContent = pw ? strengthLabels[score] : '';-->
+<!--      lbl.style.color = pw ? strengthColors[score] : 'var(&#45;&#45;muted)';-->
+<!--    }-->
+
+<!--    // ── messages ─────────────────────────────────────-->
+<!--    function showMsg(text, type) {-->
+<!--      const el = document.getElementById('msg');-->
+<!--      el.textContent = text;-->
+<!--      el.className = `msg ${type} visible`;-->
+<!--      el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });-->
+<!--    }-->
+<!--    function clearMsg() {-->
+<!--      document.getElementById('msg').className = 'msg';-->
+<!--    }-->
+
+<!--    // ── submit ────────────────────────────────────────-->
+<!--    async function submitForm() {-->
+<!--      clearMsg();-->
+
+<!--      const password = document.getElementById('password').value;-->
+<!--      const confirmPassword = document.getElementById('confirmPassword').value;-->
+
+<!--      if (!password) { showMsg('Password is required.', 'error'); return; }-->
+<!--      if (password.length < 6) { showMsg('Password must be at least 6 characters.', 'error'); return; }-->
+<!--      if (password !== confirmPassword) { showMsg('Passwords do not match.', 'error'); return; }-->
+
+<!--      const payload = {-->
+<!--        UserName:        document.getElementById('userName').value.trim(),-->
+<!--        Email:           document.getElementById('email').value.trim(),-->
+<!--        PhoneNumber:     document.getElementById('phoneNumber').value.trim(),-->
+<!--        ImageUrl:        document.getElementById('imageUrl').value.trim(),-->
+<!--        Role:            document.getElementById('role').value,-->
+<!--        Password:        password,-->
+<!--        confirmPassword: confirmPassword-->
+<!--      };-->
+
+<!--      const btn = document.getElementById('submitBtn');-->
+<!--      btn.disabled = true;-->
+<!--      btn.classList.add('loading');-->
+
+<!--      try {-->
+<!--        const res = await fetch('/auth/api/register', {-->
+<!--          method: 'POST',-->
+<!--          headers: { 'Content-Type': 'application/json' },-->
+<!--          body: JSON.stringify(payload)-->
+<!--        });-->
+
+<!--        const data = await res.json();-->
+
+<!--        if (data.isSuccess) {-->
+<!--          showMsg('Account created! Redirecting to login…', 'success');-->
+<!--          setTimeout(() => window.location.href = '/login', 1500);-->
+<!--        } else {-->
+<!--          showMsg(data.error || 'Registration failed. Please try again.', 'error');-->
+<!--        }-->
+<!--      } catch (err) {-->
+<!--        showMsg('Network error. Please check your connection.', 'error');-->
+<!--      } finally {-->
+<!--        btn.disabled = false;-->
+<!--        btn.classList.remove('loading');-->
+<!--      }-->
+<!--    }-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->

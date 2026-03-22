@@ -31,12 +31,23 @@ public class User {
 
     @Id
     @UuidGenerator
-    @Column(name = "id", updatable = false, nullable = false, length = 36)
+//    @Column(name = "id", updatable = false, nullable = false, length = 36)
+    @Column(name = "id", updatable = false, nullable = false, columnDefinition = "VARCHAR(36)")
     private String id;
     private String username;
+    @Column(unique = true, nullable = false)
     private String email;
     private String phoneNumber;
     private String password;
-    @ManyToMany(mappedBy = "Users")
+    // User OWNS the join table — JPA writes to User_Roles from this side
+    @ManyToMany(fetch = FetchType.LAZY)   // NO cascade — roles already exist, just link them
+    @JoinTable(
+            name = "user_roles",                                      // lowercase — matches DB
+            joinColumns        = @JoinColumn(name = "user_id"),       // lowercase
+            inverseJoinColumns = @JoinColumn(name = "role_id")        // lowercase
+    )
     private List<Role> Roles;
+
+//    @ManyToMany(mappedBy = "Users")
+//    private List<Role> Roles;
 }

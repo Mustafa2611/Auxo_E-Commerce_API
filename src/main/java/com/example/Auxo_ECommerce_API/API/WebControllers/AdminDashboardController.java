@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AdminDashboardController {
 
     private final IMediator mediator;
-    @GetMapping("/login")
-    public String login() {
-        return "admin/login"; // points to templates/admin/login.html
-    }
+//    @GetMapping("/login")
+//    public String login() {
+//        return "admin/login"; // points to templates/admin/login.html
+//    }
     @GetMapping({"", "/"})
     public String dashboard(Model model) {
         var categories = mediator.send(new GetCategoriesQuery());

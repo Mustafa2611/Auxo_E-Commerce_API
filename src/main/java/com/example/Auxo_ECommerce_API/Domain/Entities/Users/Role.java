@@ -33,18 +33,23 @@ public class Role {
 
     @Id
     @UuidGenerator
-    @Column(name = "id", updatable = false, nullable = false, length = 36)
+//    @Column(name = "id", updatable = false, nullable = false, length = 36)
+//    @UuidGenerator(style = UuidGenerator.Style.NAME)
+    @Column(name = "id", updatable = false, nullable = false, columnDefinition = "VARCHAR(36)")
     private String id;
     private String name;
 
-    @ManyToMany(
-            fetch = FetchType.LAZY,
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE}
-    )
-    @JoinTable(
-            name = "User_Roles",
-            joinColumns = @JoinColumn(name = "Role_Id"),
-            inverseJoinColumns = @JoinColumn(name = "User_Id")
-    )
+    // Inverse side — mappedBy points to the field name in User that owns the join table
+    @ManyToMany(mappedBy = "Roles", fetch = FetchType.LAZY)
     private List<User> Users;
+//    @ManyToMany(
+//            fetch = FetchType.LAZY,
+//            cascade = {CascadeType.PERSIST, CascadeType.MERGE}
+//    )
+//    @JoinTable(
+//            name = "User_Roles",
+//            joinColumns = @JoinColumn(name = "Role_Id"),
+//            inverseJoinColumns = @JoinColumn(name = "User_Id")
+//    )
+//    private List<User> Users;
 }

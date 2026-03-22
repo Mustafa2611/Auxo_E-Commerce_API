@@ -4,7 +4,6 @@ import com.example.Auxo_ECommerce_API.Application.Common.IQueryHandler;
 import com.example.Auxo_ECommerce_API.Application.Common.Result;
 import com.example.Auxo_ECommerce_API.Application.Features.Categories.Dtos.GetCategoryDetailsDto;
 import com.example.Auxo_ECommerce_API.Application.Features.Categories.Dtos.GetCategoryDto;
-import com.example.Auxo_ECommerce_API.Application.Features.Categories.Queries.GetCategoriesQuery;
 import com.example.Auxo_ECommerce_API.Application.Features.Categories.Queries.GetCategoryByIdQuery;
 import com.example.Auxo_ECommerce_API.Domain.Entities.Category;
 import com.example.Auxo_ECommerce_API.Domain.Interfaces.IUnitOfWork;
@@ -17,10 +16,10 @@ import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service("GetCategoryByIdQueryHandler")
-public class GetCategoryByIdQueryHandler implements IQueryHandler<GetCategoryByIdQuery, GetCategoryDto> {
+public class GetCategoryByIdQueryHandler implements IQueryHandler<GetCategoryByIdQuery, Object> {
     private final IUnitOfWork _unitOfWork;
     @Override
-    public Result<GetCategoryDto> handle(GetCategoryByIdQuery request) {
+    public Result<Object> handle(GetCategoryByIdQuery request) {
         Optional<Category> optional = _unitOfWork.Categories().findById(request.getId());
         if(optional.isEmpty())
             return Result.failure("category not found");

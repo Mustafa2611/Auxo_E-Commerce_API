@@ -16,12 +16,12 @@ import java.util.stream.Collectors;
 @Service("GetChildrenByParentIdQueryHandler")
 @AllArgsConstructor
 public class GetChildrenByParentIdQueryHandler
-        implements IQueryHandler<GetChildrenByParentIdQuery, List<GetCategoryDto>> {
+        implements IQueryHandler<GetChildrenByParentIdQuery, Object> {
 
     private final IUnitOfWork unitOfWork;
 
     @Override
-    public Result<List<GetCategoryDto>> handle(GetChildrenByParentIdQuery request) {
+    public Result<Object> handle(GetChildrenByParentIdQuery request) {
         List<Category> children = unitOfWork.Categories().findByParentId(request.getParentId());
 
         List<GetCategoryDto> dtos = children.stream()

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${pageTitle} ? ${pageTitle} + ' — ElectroShop' : 'ElectroShop'">ElectroShop</title>
+    <title th:text="${pageTitle} ? ${pageTitle} + ' — Auxo' : 'Auxo'">ElectroShop</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">
@@ -155,6 +155,43 @@
             background: var(--accent-light);
         }
 
+        /* ── Auth buttons ── */
+        .nav-divider {
+            width: 1px; height: 22px;
+            background: var(--border);
+            flex-shrink: 0;
+        }
+        .nav-btn-ghost {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 0 16px; height: 36px;
+            border: 1.5px solid var(--border); border-radius: 9px;
+            background: #fff; color: var(--ink);
+            font-family: 'DM Sans', sans-serif; font-size: 13.5px; font-weight: 500;
+            text-decoration: none; white-space: nowrap; flex-shrink: 0;
+            cursor: pointer;
+            transition: border-color .15s, color .15s, background .15s;
+        }
+        .nav-btn-ghost:hover {
+            border-color: var(--accent); color: var(--accent);
+            background: var(--accent-light);
+        }
+        .nav-btn-solid {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 0 16px; height: 36px;
+            background: var(--accent); border: none; border-radius: 9px;
+            color: #fff;
+            font-family: 'DM Sans', sans-serif; font-size: 13.5px; font-weight: 600;
+            text-decoration: none; white-space: nowrap; flex-shrink: 0;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(26,86,255,.25);
+            transition: background .15s, transform .1s, box-shadow .15s;
+        }
+        .nav-btn-solid:hover {
+            background: var(--accent-dark); color: #fff;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 14px rgba(26,86,255,.35);
+        }
+
         /* Hamburger — hidden on desktop */
         .nav-hamburger {
             display: none; width: 38px; height: 38px; border-radius: 10px;
@@ -242,6 +279,67 @@
         .mobile-cat-link:hover { background: var(--accent-light); color: var(--accent); }
         .mobile-cat-link i { font-size: 13px; opacity: .6; }
 
+        /* ── Nav user dropdown ── */
+        .nav-user-wrap { position: relative; }
+        .nav-user-btn {
+            display: flex; align-items: center; gap: 8px;
+            background: none; border: 1.5px solid var(--border);
+            border-radius: 10px; padding: 5px 12px 5px 5px;
+            cursor: pointer; transition: border-color .15s, background .15s;
+            font-family: 'DM Sans', sans-serif;
+        }
+        .nav-user-btn:hover { border-color: var(--accent); background: var(--accent-light); }
+        .nav-avatar {
+            width: 28px; height: 28px; border-radius: 50%;
+            background: var(--accent); color: #fff;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 12px; font-weight: 700; flex-shrink: 0;
+        }
+        #navUsername { font-size: 13.5px; font-weight: 500; color: var(--ink); }
+        .nav-user-dropdown {
+            position: absolute; top: calc(100% + 8px); right: 0;
+            background: #fff; border: 1px solid var(--border);
+            border-radius: 14px; box-shadow: 0 8px 32px rgba(0,0,0,.11);
+            padding: 6px; min-width: 220px;
+            opacity: 0; visibility: hidden; transform: translateY(-6px);
+            transition: opacity .18s, transform .18s, visibility .18s;
+            z-index: 600;
+        }
+        .nav-user-dropdown.open {
+            opacity: 1; visibility: visible; transform: translateY(0);
+        }
+        .nav-user-info { padding: 10px 12px 8px; }
+        .nav-user-name { font-weight: 600; font-size: 14px; color: var(--ink); }
+        .nav-user-email { font-size: 12px; color: var(--muted); margin-top: 2px; }
+        .nav-logout-btn {
+            width: 100%; text-align: left; background: none; border: none;
+            cursor: pointer; color: #dc2626; font-family: 'DM Sans', sans-serif;
+        }
+        .nav-logout-btn:hover { background: #fff1f1 !important; color: #dc2626 !important; }
+
+        /* Mobile auth buttons */
+        .mobile-auth-section {
+            padding: 16px 20px;
+            border-top: 1px solid var(--border);
+            display: flex; flex-direction: column; gap: 10px;
+        }
+        .mobile-auth-login {
+            display: flex; align-items: center; justify-content: center; gap: 7px;
+            padding: 11px; border: 1.5px solid var(--border); border-radius: 10px;
+            color: var(--ink); font-size: 14px; font-weight: 500;
+            font-family: 'DM Sans', sans-serif; text-decoration: none;
+            transition: border-color .15s, color .15s, background .15s;
+        }
+        .mobile-auth-login:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+        .mobile-auth-register {
+            display: flex; align-items: center; justify-content: center; gap: 7px;
+            padding: 11px; background: var(--accent); border: none; border-radius: 10px;
+            color: #fff; font-size: 14px; font-weight: 600;
+            font-family: 'DM Sans', sans-serif; text-decoration: none;
+            transition: background .15s;
+        }
+        .mobile-auth-register:hover { background: var(--accent-dark); color: #fff; }
+
         /* ════════════════════════════════
            SHARED UTILITIES
         ════════════════════════════════ */
@@ -313,6 +411,7 @@
             .nav-links { display: none; }
             .nav-search-wrap { display: none; }
             .nav-icon-btn { display: none; }
+            .nav-auth-group { display: none; }
             .nav-hamburger { display: flex; }
             .nav-logo { margin-right: 0; }
 
@@ -335,8 +434,7 @@
     <div class="nav-inner">
 
         <a href="/" class="nav-logo">
-            <div class="nav-logo-mark"><i class="bi bi-lightning-fill"></i></div>
-            ElectroShop
+            <img src="/images/auxo-logo.svg" alt="Auxo" style="height:30px;width:auto;">
         </a>
 
         <!-- Desktop links -->
@@ -380,7 +478,53 @@
                 <i class="bi bi-search"></i>
                 <input type="text" name="search" placeholder="Search products...">
             </form>
+
             <a href="#" class="nav-icon-btn"><i class="bi bi-bag"></i></a>
+
+            <!-- Auth buttons group — toggled by JS based on localStorage -->
+            <div class="nav-auth-group" style="display:flex; align-items:center; gap:8px;">
+                <div class="nav-divider"></div>
+
+                <!-- Logged OUT state -->
+                <div id="navAuthGuest" style="display:flex;align-items:center;gap:8px;">
+                    <a href="/auth/login" class="nav-btn-ghost">
+                        <i class="bi bi-person"></i> Sign in
+                    </a>
+                    <a href="/auth/register" class="nav-btn-solid">
+                        Get started
+                    </a>
+                </div>
+
+                <!-- Logged IN state (hidden until JS confirms token) -->
+                <div id="navAuthUser" style="display:none; align-items:center; gap:10px;">
+                    <!-- Admin link — shown only for admins -->
+                    <a href="/admin" id="navAdminLink" style="display:none"
+                       class="nav-btn-ghost" title="Admin Panel">
+                        <i class="bi bi-speedometer2"></i> Admin
+                    </a>
+                    <!-- User avatar dropdown -->
+                    <div class="nav-user-wrap" id="navUserWrap">
+                        <button class="nav-user-btn" onclick="toggleUserMenu()" id="navUserBtn">
+                            <div class="nav-avatar" id="navAvatar">?</div>
+                            <span id="navUsername"></span>
+                            <i class="bi bi-chevron-down" style="font-size:11px;color:var(--muted)"></i>
+                        </button>
+                        <div class="nav-user-dropdown" id="navUserDropdown">
+                            <div class="nav-user-info">
+                                <div class="nav-user-name" id="dropUsername"></div>
+                                <div class="nav-user-email" id="dropEmail"></div>
+                            </div>
+                            <div class="nav-dd-divider"></div>
+                            <a href="/profile" class="nav-dd-item"><i class="bi bi-person"></i> Profile</a>
+                            <a href="/orders" class="nav-dd-item"><i class="bi bi-bag"></i> My Orders</a>
+                            <div class="nav-dd-divider"></div>
+                            <button class="nav-dd-item nav-logout-btn" onclick="doLogout()">
+                                <i class="bi bi-box-arrow-right"></i> Sign out
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Mobile hamburger -->
@@ -397,8 +541,7 @@
     <div class="mobile-menu-drawer">
         <div class="mobile-menu-head">
             <a href="/" class="mobile-menu-logo">
-                <div class="nav-logo-mark"><i class="bi bi-lightning-fill"></i></div>
-                ElectroShop
+                <img src="/images/auxo-logo.svg" alt="Auxo" style="height:24px;width:auto;">
             </a>
             <button class="mobile-menu-close" onclick="closeMobileMenu()">
                 <i class="bi bi-x-lg"></i>
@@ -436,6 +579,31 @@
                 </a>
             </th:block>
         </div>
+
+        <!-- Mobile auth section — toggled by JS -->
+        <div class="mobile-auth-section" id="mobileAuthGuest">
+            <a href="/auth/login" class="mobile-auth-login" onclick="closeMobileMenu()">
+                <i class="bi bi-person"></i> Sign in
+            </a>
+            <a href="/auth/register" class="mobile-auth-register" onclick="closeMobileMenu()">
+                <i class="bi bi-person-plus"></i> Create account
+            </a>
+        </div>
+        <div class="mobile-auth-section" id="mobileAuthUser" style="display:none; flex-direction:column; gap:8px;">
+            <div style="padding:4px 0 8px;">
+                <div style="font-weight:600;font-size:14px" id="mobileUsername"></div>
+                <div style="font-size:12px;color:var(--muted)" id="mobileEmail"></div>
+            </div>
+            <a href="/admin" id="mobileAdminLink" style="display:none"
+               class="mobile-auth-register" onclick="closeMobileMenu()">
+                <i class="bi bi-speedometer2"></i> Admin Panel
+            </a>
+            <button onclick="doLogout()" class="mobile-auth-login"
+                    style="border:none;cursor:pointer;color:#dc2626;border-color:#fecaca;">
+                <i class="bi bi-box-arrow-right"></i> Sign out
+            </button>
+        </div>
+
     </div>
 </div>
 
@@ -450,8 +618,7 @@
         <div class="footer-top">
             <div>
                 <div class="footer-brand">
-                    <div class="footer-brand-mark"><i class="bi bi-lightning-fill"></i></div>
-                    ElectroShop
+                    <img src="/images/auxo-logo.svg" alt="Auxo" style="height:22px;width:auto;filter:brightness(0) invert(1);">
                 </div>
                 <p class="footer-desc">Premium electrical appliances for your home. Free delivery, easy installment plans, and official warranty on all products.</p>
             </div>
@@ -483,13 +650,14 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <span>© 2025 ElectroShop. All rights reserved.</span>
+            <span>© 2025 Auxo. All rights reserved.</span>
             <span>Free delivery · Easy returns · Official warranty</span>
         </div>
     </div>
 </footer>
 
 <script>
+    // ── Mobile menu ───────────────────────────────────────────────
     function openMobileMenu() {
         document.getElementById('mobileMenu').classList.add('open');
         document.body.style.overflow = 'hidden';
@@ -498,7 +666,603 @@
         document.getElementById('mobileMenu').classList.remove('open');
         document.body.style.overflow = '';
     }
+
+    // ── User dropdown ─────────────────────────────────────────────
+    function toggleUserMenu() {
+        document.getElementById('navUserDropdown').classList.toggle('open');
+    }
+    document.addEventListener('click', function(e) {
+        const wrap = document.getElementById('navUserWrap');
+        if (wrap && !wrap.contains(e.target)) {
+            document.getElementById('navUserDropdown')?.classList.remove('open');
+        }
+    });
+
+    // ── Auth state — decoded directly from JWT (source of truth) ──
+    function initAuthState() {
+        const token = localStorage.getItem('auxo_token');
+
+        if (!token) {
+            showGuest();
+            return;
+        }
+
+        // Decode JWT payload without any library
+        try {
+            const payload = JSON.parse(atob(token.split('.')[1]));
+
+            // Check expiry
+            if (payload.exp * 1000 < Date.now()) {
+                doLogout(false);
+                return;
+            }
+
+            // Build user object from JWT claims (these are set in JwtService.generateToken)
+            const user = {
+                id:          payload.id,
+                username:    payload.username,   // claim set in JwtService
+                email:       payload.sub,        // subject = email
+                phoneNumber: payload.phone,
+                roles:       payload.roles || []
+            };
+
+            // Keep auxo_user in sync with decoded data
+            localStorage.setItem('auxo_user', JSON.stringify(user));
+
+            showLoggedIn(user);
+        } catch(e) {
+            doLogout(false);
+        }
+    }
+
+    function showGuest() {
+        document.getElementById('navAuthGuest').style.display  = 'flex';
+        document.getElementById('navAuthUser').style.display   = 'none';
+        document.getElementById('mobileAuthGuest').style.display = 'flex';
+        document.getElementById('mobileAuthUser').style.display  = 'none';
+    }
+
+    function showLoggedIn(user) {
+        // Hide guest UI
+        document.getElementById('navAuthGuest').style.display  = 'none';
+        document.getElementById('mobileAuthGuest').style.display = 'none';
+
+        // Show user UI
+        const navUser = document.getElementById('navAuthUser');
+        navUser.style.display = 'flex';
+
+        const mobileUser = document.getElementById('mobileAuthUser');
+        mobileUser.style.display = 'flex';
+
+        // Populate name / email
+        const initials = (user.username || 'U').charAt(0).toUpperCase();
+        document.getElementById('navAvatar').textContent    = initials;
+        document.getElementById('navUsername').textContent  = user.username || '';
+        document.getElementById('dropUsername').textContent = user.username || 'User';
+        document.getElementById('dropEmail').textContent    = user.email    || '';
+        document.getElementById('mobileUsername').textContent = user.username || 'User';
+        document.getElementById('mobileEmail').textContent    = user.email    || '';
+
+        // Show admin link if user has Admin role
+        const isAdmin = (user.roles || []).includes('Admin');
+        document.getElementById('navAdminLink').style.display    = isAdmin ? 'flex' : 'none';
+        document.getElementById('mobileAdminLink').style.display = isAdmin ? 'flex' : 'none';
+    }
+
+    // ── Logout ────────────────────────────────────────────────────
+    function doLogout(redirect = true) {
+        localStorage.removeItem('auxo_token');
+        localStorage.removeItem('auxo_user');
+        if (redirect) window.location.href = '/auth/login';
+    }
+
+    // Run on every page load
+    document.addEventListener('DOMContentLoaded', initAuthState);
 </script>
 
 </body>
 </html>
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org" th:fragment="layout(content)">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title th:text="${pageTitle} ? ${pageTitle} + ' — ElectroShop' : 'ElectroShop'">ElectroShop</title>-->
+<!--    <link rel="preconnect" href="https://fonts.googleapis.com">-->
+<!--    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>-->
+<!--    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">-->
+<!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">-->
+<!--    <style>-->
+<!--        :root {-->
+<!--            &#45;&#45;ink: #0d0d0d;-->
+<!--            &#45;&#45;paper: #f6f7f9;-->
+<!--            &#45;&#45;accent: #1a56ff;-->
+<!--            &#45;&#45;accent-dark: #0038e0;-->
+<!--            &#45;&#45;accent-light: #eff4ff;-->
+<!--            &#45;&#45;muted: #6b7280;-->
+<!--            &#45;&#45;border: #e4e7ec;-->
+<!--            &#45;&#45;nav-h: 64px;-->
+<!--            &#45;&#45;shadow-sm: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);-->
+<!--        }-->
+<!--        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }-->
+<!--        html { scroll-behavior: smooth; }-->
+<!--        body {-->
+<!--            font-family: 'DM Sans', sans-serif;-->
+<!--            background: var(&#45;&#45;paper);-->
+<!--            color: var(&#45;&#45;ink);-->
+<!--            font-size: 15px;-->
+<!--            line-height: 1.6;-->
+<!--        }-->
+<!--        h1,h2,h3,h4,h5,h6 { font-family: 'Syne', sans-serif; }-->
+
+<!--        /* ════════════════════════════════-->
+<!--           NAVBAR — DESKTOP-->
+<!--        ════════════════════════════════ */-->
+<!--        .store-nav {-->
+<!--            position: sticky; top: 0; z-index: 500;-->
+<!--            height: var(&#45;&#45;nav-h);-->
+<!--            background: rgba(255,255,255,0.97);-->
+<!--            backdrop-filter: blur(16px);-->
+<!--            -webkit-backdrop-filter: blur(16px);-->
+<!--            border-bottom: 1px solid var(&#45;&#45;border);-->
+<!--            box-shadow: var(&#45;&#45;shadow-sm);-->
+<!--        }-->
+<!--        .nav-inner {-->
+<!--            max-width: 1320px; width: 100%; margin: 0 auto;-->
+<!--            padding: 0 28px; height: 100%;-->
+<!--            display: flex; align-items: center; gap: 0;-->
+<!--        }-->
+
+<!--        .nav-logo {-->
+<!--            font-family: 'Syne', sans-serif; font-weight: 800; font-size: 19px;-->
+<!--            color: var(&#45;&#45;ink); text-decoration: none;-->
+<!--            display: flex; align-items: center; gap: 9px;-->
+<!--            margin-right: 36px; flex-shrink: 0;-->
+<!--        }-->
+<!--        .nav-logo-mark {-->
+<!--            width: 34px; height: 34px; background: var(&#45;&#45;accent);-->
+<!--            border-radius: 9px; display: flex; align-items: center;-->
+<!--            justify-content: center; font-size: 16px; color: #fff;-->
+<!--            flex-shrink: 0;-->
+<!--        }-->
+
+<!--        .nav-links {-->
+<!--            display: flex; align-items: stretch;-->
+<!--            height: 100%;-->
+<!--        }-->
+<!--        .nav-link-item {-->
+<!--            position: relative; display: flex; align-items: center;-->
+<!--        }-->
+<!--        .nav-link {-->
+<!--            display: flex; align-items: center; gap: 5px;-->
+<!--            padding: 0 14px; height: 100%;-->
+<!--            color: var(&#45;&#45;muted); font-size: 14px; font-weight: 500;-->
+<!--            text-decoration: none; border: none; background: none;-->
+<!--            cursor: pointer; white-space: nowrap;-->
+<!--            font-family: 'DM Sans', sans-serif;-->
+<!--            transition: color .15s;-->
+<!--        }-->
+<!--        .nav-link:hover,-->
+<!--        .nav-link.active { color: var(&#45;&#45;ink); }-->
+<!--        .nav-link.active::after {-->
+<!--            content: '';-->
+<!--            position: absolute; bottom: 0; left: 14px; right: 14px;-->
+<!--            height: 2px; background: var(&#45;&#45;accent);-->
+<!--            border-radius: 2px 2px 0 0;-->
+<!--        }-->
+<!--        .nav-link .chevron { font-size: 11px; transition: transform .22s; }-->
+<!--        .nav-link-item:hover .chevron { transform: rotate(180deg); }-->
+
+<!--        /* Dropdown */-->
+<!--        .nav-dropdown {-->
+<!--            position: absolute; top: calc(100% + 4px); left: -4px;-->
+<!--            background: #fff; border: 1px solid var(&#45;&#45;border);-->
+<!--            border-radius: 14px; box-shadow: 0 8px 32px rgba(0,0,0,.11);-->
+<!--            padding: 6px; min-width: 210px;-->
+<!--            opacity: 0; visibility: hidden; transform: translateY(-6px);-->
+<!--            transition: opacity .18s, transform .18s, visibility .18s;-->
+<!--            z-index: 600;-->
+<!--        }-->
+<!--        .nav-link-item:hover .nav-dropdown {-->
+<!--            opacity: 1; visibility: visible; transform: translateY(0);-->
+<!--        }-->
+<!--        .nav-dd-item {-->
+<!--            display: flex; align-items: center; gap: 10px;-->
+<!--            padding: 8px 12px; border-radius: 8px;-->
+<!--            color: var(&#45;&#45;ink); text-decoration: none; font-size: 13.5px;-->
+<!--            font-family: 'DM Sans', sans-serif;-->
+<!--            transition: background .12s;-->
+<!--        }-->
+<!--        .nav-dd-item:hover { background: var(&#45;&#45;accent-light); color: var(&#45;&#45;accent); }-->
+<!--        .nav-dd-item i { font-size: 14px; opacity: .6; flex-shrink: 0; }-->
+<!--        .nav-dd-divider { height: 1px; background: var(&#45;&#45;border); margin: 5px 0; }-->
+<!--        .nav-dd-all {-->
+<!--            display: flex; align-items: center; justify-content: space-between;-->
+<!--            padding: 9px 12px; border-radius: 8px;-->
+<!--            font-size: 13px; font-weight: 600;-->
+<!--            color: var(&#45;&#45;accent); text-decoration: none;-->
+<!--            background: var(&#45;&#45;accent-light);-->
+<!--            font-family: 'DM Sans', sans-serif;-->
+<!--            transition: background .12s;-->
+<!--        }-->
+<!--        .nav-dd-all:hover { background: #dce8ff; color: var(&#45;&#45;accent); }-->
+
+<!--        /* Right */-->
+<!--        .nav-right {-->
+<!--            margin-left: auto; display: flex; align-items: center; gap: 10px;-->
+<!--        }-->
+<!--        .nav-search-wrap {-->
+<!--            display: flex; align-items: center;-->
+<!--            background: #f1f3f6; border-radius: 10px;-->
+<!--            padding: 0 13px; gap: 8px; height: 38px;-->
+<!--            border: 1.5px solid transparent;-->
+<!--            transition: border .15s, background .15s;-->
+<!--        }-->
+<!--        .nav-search-wrap:focus-within { border-color: var(&#45;&#45;accent); background: #fff; }-->
+<!--        .nav-search-wrap i { color: var(&#45;&#45;muted); font-size: 14px; flex-shrink: 0; }-->
+<!--        .nav-search-wrap input {-->
+<!--            border: none; background: none; outline: none;-->
+<!--            font-family: 'DM Sans', sans-serif; font-size: 14px;-->
+<!--            width: 190px; color: var(&#45;&#45;ink);-->
+<!--        }-->
+<!--        .nav-search-wrap input::placeholder { color: #adb5bd; }-->
+<!--        .nav-icon-btn {-->
+<!--            width: 38px; height: 38px; border-radius: 10px;-->
+<!--            border: 1.5px solid var(&#45;&#45;border); background: #fff;-->
+<!--            display: flex; align-items: center; justify-content: center;-->
+<!--            color: var(&#45;&#45;muted); font-size: 16px; cursor: pointer;-->
+<!--            text-decoration: none; flex-shrink: 0;-->
+<!--            transition: border-color .15s, color .15s, background .15s;-->
+<!--        }-->
+<!--        .nav-icon-btn:hover {-->
+<!--            border-color: var(&#45;&#45;accent); color: var(&#45;&#45;accent);-->
+<!--            background: var(&#45;&#45;accent-light);-->
+<!--        }-->
+
+<!--        /* Hamburger — hidden on desktop */-->
+<!--        .nav-hamburger {-->
+<!--            display: none; width: 38px; height: 38px; border-radius: 10px;-->
+<!--            border: 1.5px solid var(&#45;&#45;border); background: #fff;-->
+<!--            align-items: center; justify-content: center;-->
+<!--            color: var(&#45;&#45;ink); font-size: 18px; cursor: pointer;-->
+<!--            margin-left: auto; flex-shrink: 0;-->
+<!--        }-->
+
+<!--        /* ════════════════════════════════-->
+<!--           MOBILE MENU DRAWER-->
+<!--        ════════════════════════════════ */-->
+<!--        .mobile-menu-overlay {-->
+<!--            display: none; position: fixed; inset: 0; z-index: 700;-->
+<!--        }-->
+<!--        .mobile-menu-overlay.open { display: block; }-->
+<!--        .mobile-menu-backdrop {-->
+<!--            position: absolute; inset: 0;-->
+<!--            background: rgba(0,0,0,.45);-->
+<!--        }-->
+<!--        .mobile-menu-drawer {-->
+<!--            position: absolute; top: 0; left: 0; bottom: 0; width: 300px;-->
+<!--            background: #fff; overflow-y: auto;-->
+<!--            display: flex; flex-direction: column;-->
+<!--            transform: translateX(-100%);-->
+<!--            transition: transform .28s cubic-bezier(.4,0,.2,1);-->
+<!--        }-->
+<!--        .mobile-menu-overlay.open .mobile-menu-drawer {-->
+<!--            transform: translateX(0);-->
+<!--        }-->
+<!--        .mobile-menu-head {-->
+<!--            display: flex; align-items: center; justify-content: space-between;-->
+<!--            padding: 18px 20px; border-bottom: 1px solid var(&#45;&#45;border);-->
+<!--        }-->
+<!--        .mobile-menu-logo {-->
+<!--            font-family: 'Syne', sans-serif; font-weight: 800; font-size: 17px;-->
+<!--            display: flex; align-items: center; gap: 8px; color: var(&#45;&#45;ink);-->
+<!--            text-decoration: none;-->
+<!--        }-->
+<!--        .mobile-menu-close {-->
+<!--            width: 34px; height: 34px; border-radius: 8px;-->
+<!--            border: 1.5px solid var(&#45;&#45;border); background: none;-->
+<!--            display: flex; align-items: center; justify-content: center;-->
+<!--            cursor: pointer; font-size: 17px; color: var(&#45;&#45;muted);-->
+<!--        }-->
+<!--        .mobile-search-wrap {-->
+<!--            padding: 16px 20px; border-bottom: 1px solid var(&#45;&#45;border);-->
+<!--        }-->
+<!--        .mobile-search-inner {-->
+<!--            display: flex; align-items: center; gap: 8px;-->
+<!--            background: #f1f3f6; border-radius: 10px;-->
+<!--            padding: 0 13px; height: 40px;-->
+<!--            border: 1.5px solid transparent;-->
+<!--            transition: border .15s, background .15s;-->
+<!--        }-->
+<!--        .mobile-search-inner:focus-within { border-color: var(&#45;&#45;accent); background: #fff; }-->
+<!--        .mobile-search-inner i { color: var(&#45;&#45;muted); font-size: 14px; flex-shrink: 0; }-->
+<!--        .mobile-search-inner input {-->
+<!--            border: none; background: none; outline: none;-->
+<!--            font-family: 'DM Sans', sans-serif; font-size: 14px; flex: 1; color: var(&#45;&#45;ink);-->
+<!--        }-->
+<!--        .mobile-nav-links { flex: 1; padding: 8px 0; }-->
+<!--        .mobile-nav-link {-->
+<!--            display: flex; align-items: center; gap: 10px;-->
+<!--            padding: 13px 20px; color: var(&#45;&#45;ink); text-decoration: none;-->
+<!--            font-size: 15px; font-weight: 500; font-family: 'DM Sans', sans-serif;-->
+<!--            border-left: 3px solid transparent;-->
+<!--            transition: background .12s, border-color .12s;-->
+<!--        }-->
+<!--        .mobile-nav-link:hover,-->
+<!--        .mobile-nav-link.active { background: var(&#45;&#45;accent-light); color: var(&#45;&#45;accent); border-left-color: var(&#45;&#45;accent); }-->
+<!--        .mobile-nav-link i { font-size: 16px; }-->
+<!--        .mobile-cat-section { padding: 0 20px 16px; }-->
+<!--        .mobile-cat-title {-->
+<!--            font-size: 11px; font-weight: 700; text-transform: uppercase;-->
+<!--            letter-spacing: .1em; color: #9ca3af; padding: 14px 0 8px;-->
+<!--        }-->
+<!--        .mobile-cat-link {-->
+<!--            display: flex; align-items: center; gap: 9px;-->
+<!--            padding: 9px 12px; border-radius: 8px;-->
+<!--            color: var(&#45;&#45;ink); text-decoration: none; font-size: 14px;-->
+<!--            font-family: 'DM Sans', sans-serif;-->
+<!--            transition: background .12s;-->
+<!--        }-->
+<!--        .mobile-cat-link:hover { background: var(&#45;&#45;accent-light); color: var(&#45;&#45;accent); }-->
+<!--        .mobile-cat-link i { font-size: 13px; opacity: .6; }-->
+
+<!--        /* ════════════════════════════════-->
+<!--           SHARED UTILITIES-->
+<!--        ════════════════════════════════ */-->
+<!--        .container { max-width: 1320px; margin: 0 auto; padding: 0 28px; }-->
+
+<!--        .btn-primary {-->
+<!--            background: var(&#45;&#45;accent); color: #fff; border: none;-->
+<!--            padding: 11px 24px; border-radius: 10px;-->
+<!--            font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 14px;-->
+<!--            cursor: pointer; text-decoration: none;-->
+<!--            display: inline-flex; align-items: center; gap: 7px;-->
+<!--            box-shadow: 0 2px 8px rgba(26,86,255,.25);-->
+<!--            transition: background .15s, transform .1s, box-shadow .15s;-->
+<!--        }-->
+<!--        .btn-primary:hover {-->
+<!--            background: var(&#45;&#45;accent-dark); color: #fff;-->
+<!--            transform: translateY(-1px);-->
+<!--            box-shadow: 0 4px 14px rgba(26,86,255,.38);-->
+<!--        }-->
+
+<!--        /* ════════════════════════════════-->
+<!--           FOOTER-->
+<!--        ════════════════════════════════ */-->
+<!--        .store-footer {-->
+<!--            background: var(&#45;&#45;ink); color: #9ca3af;-->
+<!--            padding: 56px 28px 32px;-->
+<!--            margin-top: 80px;-->
+<!--        }-->
+<!--        .footer-inner { max-width: 1320px; margin: 0 auto; }-->
+<!--        .footer-top {-->
+<!--            display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px;-->
+<!--            padding-bottom: 44px; border-bottom: 1px solid #1f2937;-->
+<!--            margin-bottom: 28px;-->
+<!--        }-->
+<!--        .footer-brand {-->
+<!--            font-family: 'Syne', sans-serif; font-weight: 800;-->
+<!--            font-size: 19px; color: #fff; margin-bottom: 12px;-->
+<!--            display: flex; align-items: center; gap: 9px;-->
+<!--        }-->
+<!--        .footer-brand-mark {-->
+<!--            width: 30px; height: 30px; background: var(&#45;&#45;accent);-->
+<!--            border-radius: 7px; display: flex; align-items: center;-->
+<!--            justify-content: center; font-size: 14px; color: #fff;-->
+<!--        }-->
+<!--        .footer-desc { font-size: 14px; line-height: 1.75; max-width: 280px; }-->
+<!--        .footer-col h4 {-->
+<!--            font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700;-->
+<!--            color: #fff; text-transform: uppercase; letter-spacing: .1em;-->
+<!--            margin-bottom: 18px;-->
+<!--        }-->
+<!--        .footer-col ul { list-style: none; }-->
+<!--        .footer-col ul li { margin-bottom: 9px; }-->
+<!--        .footer-col ul li a {-->
+<!--            color: #9ca3af; text-decoration: none; font-size: 14px;-->
+<!--            transition: color .15s;-->
+<!--        }-->
+<!--        .footer-col ul li a:hover { color: #fff; }-->
+<!--        .footer-bottom {-->
+<!--            display: flex; justify-content: space-between; align-items: center;-->
+<!--            font-size: 13px; flex-wrap: wrap; gap: 8px;-->
+<!--        }-->
+
+<!--        /* ════════════════════════════════-->
+<!--           RESPONSIVE BREAKPOINTS-->
+<!--        ════════════════════════════════ */-->
+
+<!--        /* Tablet */-->
+<!--        @media (max-width: 1024px) {-->
+<!--            .nav-links { display: none; }-->
+<!--            .nav-search-wrap { display: none; }-->
+<!--            .nav-icon-btn { display: none; }-->
+<!--            .nav-hamburger { display: flex; }-->
+<!--            .nav-logo { margin-right: 0; }-->
+
+<!--            .footer-top { grid-template-columns: 1fr 1fr; gap: 32px; }-->
+<!--        }-->
+
+<!--        /* Mobile */-->
+<!--        @media (max-width: 640px) {-->
+<!--            .nav-inner { padding: 0 16px; }-->
+<!--            .store-footer { padding: 40px 16px 28px; margin-top: 48px; }-->
+<!--            .footer-top { grid-template-columns: 1fr; gap: 28px; }-->
+<!--            .footer-bottom { flex-direction: column; align-items: flex-start; }-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--&lt;!&ndash; ══ NAVBAR ══════════════════════════════════════ &ndash;&gt;-->
+<!--<nav class="store-nav">-->
+<!--    <div class="nav-inner">-->
+
+<!--        <a href="/" class="nav-logo">-->
+<!--            <div class="nav-logo-mark"><i class="bi bi-lightning-fill"></i></div>-->
+<!--            ElectroShop-->
+<!--        </a>-->
+
+<!--        &lt;!&ndash; Desktop links &ndash;&gt;-->
+<!--        <div class="nav-links">-->
+<!--            <div class="nav-link-item">-->
+<!--                <a th:href="@{/}" class="nav-link"-->
+<!--                   th:classappend="${activePage == 'home'} ? ' active' : ''">Home</a>-->
+<!--            </div>-->
+<!--            <div class="nav-link-item">-->
+<!--                <a th:href="@{/products}" class="nav-link"-->
+<!--                   th:classappend="${activePage == 'products'} ? ' active' : ''">Products</a>-->
+<!--            </div>-->
+<!--            <div class="nav-link-item">-->
+<!--                <button class="nav-link">-->
+<!--                    Categories <i class="bi bi-chevron-down chevron"></i>-->
+<!--                </button>-->
+<!--                <div class="nav-dropdown">-->
+<!--                    <th:block th:each="cat : ${navCategories}">-->
+<!--                        <a th:href="@{/products(categoryIds=${cat.id})}" class="nav-dd-item">-->
+<!--                            <i class="bi bi-grid-3x3-gap"></i>-->
+<!--                            <span th:text="${cat.nameEn}">Category</span>-->
+<!--                        </a>-->
+<!--                    </th:block>-->
+<!--                    <div class="nav-dd-divider"></div>-->
+<!--                    <a href="/products" class="nav-dd-all">-->
+<!--                        View All Categories <i class="bi bi-arrow-right"></i>-->
+<!--                    </a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="nav-link-item">-->
+<!--                <a href="#" class="nav-link">Offers</a>-->
+<!--            </div>-->
+<!--            <div class="nav-link-item">-->
+<!--                <a href="#" class="nav-link">Contact</a>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        &lt;!&ndash; Desktop right &ndash;&gt;-->
+<!--        <div class="nav-right">-->
+<!--            <form method="get" th:action="@{/products}" class="nav-search-wrap">-->
+<!--                <i class="bi bi-search"></i>-->
+<!--                <input type="text" name="search" placeholder="Search products...">-->
+<!--            </form>-->
+<!--            <a href="#" class="nav-icon-btn"><i class="bi bi-bag"></i></a>-->
+<!--        </div>-->
+
+<!--        &lt;!&ndash; Mobile hamburger &ndash;&gt;-->
+<!--        <button class="nav-hamburger" onclick="openMobileMenu()">-->
+<!--            <i class="bi bi-list"></i>-->
+<!--        </button>-->
+
+<!--    </div>-->
+<!--</nav>-->
+
+<!--&lt;!&ndash; ══ MOBILE MENU DRAWER ══════════════════════════ &ndash;&gt;-->
+<!--<div class="mobile-menu-overlay" id="mobileMenu">-->
+<!--    <div class="mobile-menu-backdrop" onclick="closeMobileMenu()"></div>-->
+<!--    <div class="mobile-menu-drawer">-->
+<!--        <div class="mobile-menu-head">-->
+<!--            <a href="/" class="mobile-menu-logo">-->
+<!--                <div class="nav-logo-mark"><i class="bi bi-lightning-fill"></i></div>-->
+<!--                ElectroShop-->
+<!--            </a>-->
+<!--            <button class="mobile-menu-close" onclick="closeMobileMenu()">-->
+<!--                <i class="bi bi-x-lg"></i>-->
+<!--            </button>-->
+<!--        </div>-->
+<!--        <div class="mobile-search-wrap">-->
+<!--            <form method="get" action="/products" class="mobile-search-inner">-->
+<!--                <i class="bi bi-search"></i>-->
+<!--                <input type="text" name="search" placeholder="Search products...">-->
+<!--            </form>-->
+<!--        </div>-->
+<!--        <div class="mobile-nav-links">-->
+<!--            <a href="/" class="mobile-nav-link"-->
+<!--               th:classappend="${activePage == 'home'} ? ' active' : ''">-->
+<!--                <i class="bi bi-house"></i> Home-->
+<!--            </a>-->
+<!--            <a href="/products" class="mobile-nav-link"-->
+<!--               th:classappend="${activePage == 'products'} ? ' active' : ''">-->
+<!--                <i class="bi bi-grid"></i> All Products-->
+<!--            </a>-->
+<!--            <a href="#" class="mobile-nav-link">-->
+<!--                <i class="bi bi-tag"></i> Offers-->
+<!--            </a>-->
+<!--            <a href="#" class="mobile-nav-link">-->
+<!--                <i class="bi bi-envelope"></i> Contact-->
+<!--            </a>-->
+<!--        </div>-->
+<!--        <div class="mobile-cat-section">-->
+<!--            <div class="mobile-cat-title">Categories</div>-->
+<!--            <th:block th:each="cat : ${navCategories}">-->
+<!--                <a th:href="@{/products(categoryIds=${cat.id})}"-->
+<!--                   class="mobile-cat-link" onclick="closeMobileMenu()">-->
+<!--                    <i class="bi bi-grid-3x3-gap"></i>-->
+<!--                    <span th:text="${cat.nameEn}">Category</span>-->
+<!--                </a>-->
+<!--            </th:block>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--&lt;!&ndash; ══ PAGE CONTENT ════════════════════════════════ &ndash;&gt;-->
+<!--<main>-->
+<!--    <th:block th:replace="${content}"/>-->
+<!--</main>-->
+
+<!--&lt;!&ndash; ══ FOOTER ══════════════════════════════════════ &ndash;&gt;-->
+<!--<footer class="store-footer">-->
+<!--    <div class="footer-inner">-->
+<!--        <div class="footer-top">-->
+<!--            <div>-->
+<!--                <div class="footer-brand">-->
+<!--                    <div class="footer-brand-mark"><i class="bi bi-lightning-fill"></i></div>-->
+<!--                    ElectroShop-->
+<!--                </div>-->
+<!--                <p class="footer-desc">Premium electrical appliances for your home. Free delivery, easy installment plans, and official warranty on all products.</p>-->
+<!--            </div>-->
+<!--            <div class="footer-col">-->
+<!--                <h4>Shop</h4>-->
+<!--                <ul>-->
+<!--                    <li><a href="/products">All Products</a></li>-->
+<!--                    <li><a href="#">New Arrivals</a></li>-->
+<!--                    <li><a href="#">Best Sellers</a></li>-->
+<!--                    <li><a href="#">Offers</a></li>-->
+<!--                </ul>-->
+<!--            </div>-->
+<!--            <div class="footer-col">-->
+<!--                <h4>Support</h4>-->
+<!--                <ul>-->
+<!--                    <li><a href="#">Contact Us</a></li>-->
+<!--                    <li><a href="#">FAQ</a></li>-->
+<!--                    <li><a href="#">Shipping Policy</a></li>-->
+<!--                    <li><a href="#">Returns</a></li>-->
+<!--                </ul>-->
+<!--            </div>-->
+<!--            <div class="footer-col">-->
+<!--                <h4>Company</h4>-->
+<!--                <ul>-->
+<!--                    <li><a href="#">About Us</a></li>-->
+<!--                    <li><a href="#">Privacy Policy</a></li>-->
+<!--                    <li><a href="#">Terms</a></li>-->
+<!--                </ul>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="footer-bottom">-->
+<!--            <span>© 2025 ElectroShop. All rights reserved.</span>-->
+<!--            <span>Free delivery · Easy returns · Official warranty</span>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</footer>-->
+
+<!--<script>-->
+<!--    function openMobileMenu() {-->
+<!--        document.getElementById('mobileMenu').classList.add('open');-->
+<!--        document.body.style.overflow = 'hidden';-->
+<!--    }-->
+<!--    function closeMobileMenu() {-->
+<!--        document.getElementById('mobileMenu').classList.remove('open');-->
+<!--        document.body.style.overflow = '';-->
+<!--    }-->
+<!--</script>-->
+
+<!--</body>-->
+<!--</html>-->

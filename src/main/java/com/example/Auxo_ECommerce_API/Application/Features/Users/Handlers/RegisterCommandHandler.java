@@ -16,16 +16,23 @@ import java.util.UUID;
 
 @AllArgsConstructor
 @Service("RegisterCommandHandler")
-public class RegisterCommandHandler implements ICommandHandler<RegisterCommand, Result<UUID>> {
+public class RegisterCommandHandler implements ICommandHandler<RegisterCommand, Result<String>> {
     private final IUnitOfWork unitOfWork;
     private final PasswordEncoder passwordEncoder;
     @Override
-    public Result<Result<UUID>> handle(RegisterCommand registerCommand) {
+    public Result<Result<String>> handle(RegisterCommand registerCommand) {
+
+        User existingUser = unitOfWork.Users().findByEmail(registerCommand.getEmail());
+        if(existingUser != null){
+            return Result.failure("Email already used.");
+        }
         if(!registerCommand.getPassword().equals(registerCommand.getConfirmPassword())){
             return Result.failure("Password does not match.");
         }
         Role role = unitOfWork.Roles().findByName(registerCommand.getRole());
-
+        if (role == null) {
+            return Result.failure("Role '" + registerCommand.getRole() + "' not found. Valid roles are: Admin, User.");
+        }
 //        User user = new User(UUID.randomUUID(),
 //                registerCommand.getUserName(),
 //                registerCommand.getEmail(),
